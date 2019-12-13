@@ -1,3 +1,2 @@
 # hello-world
-Hi,everyone!
-I just want to learn how to use GitHub!
+2019-12-13 Be A CodeMaster!!
