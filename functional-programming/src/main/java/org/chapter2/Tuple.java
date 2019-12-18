@@ -1,4 +1,4 @@
-package org.chapter2.exercise10;
+package org.chapter2;
 
 public class Tuple<A, B> {
     private A a;

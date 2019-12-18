@@ -1,5 +1,7 @@
 package org.chapter2.exercise10;
 
+import org.chapter2.Tuple;
+
 public class Main {
     public static void main(String[] args) {
 

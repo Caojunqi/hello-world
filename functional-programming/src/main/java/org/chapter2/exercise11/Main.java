@@ -1,7 +1,5 @@
 package org.chapter2.exercise11;
 
-import org.chapter2.exercise10.Tuple;
-
 public class Main {
     public static void main(String[] args) {
         Function<String, Function<Integer, Double>> oldCurryFun = x -> y -> 2.0 * y;
