@@ -5,9 +5,8 @@ package org;
  */
 public class Test {
     public static void main(String[] args) {
-        Integer arg = 10;
-        multi(1, arg);
-        System.out.println("arg:" + arg);
+        System.out.println(((""+'a') + 'b') + 'c');
+        System.out.println('a' + ('b' + ('c' + "")));
     }
 
     public static int multi(int a, Integer b) {
