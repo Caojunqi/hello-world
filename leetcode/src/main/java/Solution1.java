@@ -36,4 +36,6 @@ public class Solution1 {
 
         return null;
     }
+
+    // 所得：可以用哈希映射数据结构 HashMap或HashSet来提升查找的速度。
 }

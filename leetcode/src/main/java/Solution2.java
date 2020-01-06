@@ -116,4 +116,6 @@ public class Solution2 {
             node.next = new ListNode(value);
         }
     }
+
+    // 所得：使用预先指针可以将上面的两个方法合成一个方法。
 }
