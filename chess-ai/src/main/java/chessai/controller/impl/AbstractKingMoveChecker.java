@@ -51,6 +51,7 @@ public abstract class AbstractKingMoveChecker extends AbstractChessMoveChecker {
             return false;
         }
 
-        过完年回来，先写老将见面逻辑
+        return false;
+       // 过完年回来，先写老将见面逻辑
     }
 }
