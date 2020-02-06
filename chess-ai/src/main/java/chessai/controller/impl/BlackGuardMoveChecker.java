@@ -16,7 +16,7 @@ public class BlackGuardMoveChecker extends AbstractChessMoveChecker {
     }
 
     @Override
-    public boolean checkMove(int targetX, int targetY) {
+    public boolean checkMove(int startX, int startY, int targetX, int targetY) {
         return false;
     }
 }

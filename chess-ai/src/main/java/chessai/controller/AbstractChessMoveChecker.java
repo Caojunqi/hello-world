@@ -28,9 +28,11 @@ public abstract class AbstractChessMoveChecker {
     /**
      * 检测棋子移动
      *
-     * @param targetX 移动目标点X坐标
-     * @param targetY 移动目标点Y坐标
+     * @param startX  棋子移动的起始点X坐标
+     * @param startY  棋子移动的起始点Y坐标
+     * @param targetX 棋子移动的目标点X坐标
+     * @param targetY 棋子移动的目标点Y坐标
      * @return true-可移动至目标点；false-不可移动至目标点。
      */
-    public abstract boolean checkMove(int targetX, int targetY);
+    public abstract boolean checkMove(int startX, int startY, int targetX, int targetY);
 }

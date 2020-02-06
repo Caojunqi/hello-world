@@ -31,7 +31,7 @@ public class ChessMoveGenerator {
         }
 
         AbstractChessMoveChecker moveChecker = ChessManager.getInstance().getChessMoveChecker(startState);
-        return moveChecker.checkMove(targetX, targetY);
+        return moveChecker.checkMove(startX, startY, targetX, targetY);
     }
 
 }

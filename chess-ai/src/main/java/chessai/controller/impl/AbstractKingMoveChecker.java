@@ -38,12 +38,20 @@ public abstract class AbstractKingMoveChecker extends AbstractChessMoveChecker {
     protected abstract boolean inPalace(int targetX, int targetY);
 
     @Override
-    public boolean checkMove(int targetX, int targetY) {
+    public boolean checkMove(int startX, int startY, int targetX, int targetY) {
         if (isKingFace(targetX, targetY)) {
             // 老将见面，移动不合法
             return false;
         }
-        return inPalace(targetX, targetY);
+        if (!inPalace(targetX, targetY)) {
+            // 目标点不在九宫格中，移动不合法
+            return false;
+        }
+        if (Math.abs(startX - targetX) + Math.abs(startY - targetY) > 1) {
+            // 将帅只能走一步直线
+            return false;
+        }
+        return true;
     }
 
     /**

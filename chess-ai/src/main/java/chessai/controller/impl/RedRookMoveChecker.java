@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
  * 棋子移动检测器--红车
  */
 @Component
-public class RedCarMoveChecker extends AbstractChessMoveChecker {
+public class RedRookMoveChecker extends AbstractChessMoveChecker {
 
     @Override
     public PointState getPointState() {
-        return PointState.RED_CAR;
+        return PointState.RED_ROOK;
     }
 
     @Override
-    public boolean checkMove(int targetX, int targetY) {
+    public boolean checkMove(int startX, int startY, int targetX, int targetY) {
         return false;
     }
 }

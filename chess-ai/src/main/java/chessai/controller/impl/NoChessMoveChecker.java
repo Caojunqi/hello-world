@@ -16,7 +16,7 @@ public class NoChessMoveChecker extends AbstractChessMoveChecker {
     }
 
     @Override
-    public boolean checkMove(int targetX, int targetY) {
+    public boolean checkMove(int startX, int startY, int targetX, int targetY) {
         // 没有棋子不能移动
         return false;
     }

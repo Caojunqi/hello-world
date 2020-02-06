@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
  * 棋子移动检测器--红象
  */
 @Component
-public class RedElephantMoveChecker extends AbstractChessMoveChecker {
+public class RedMinisterMoveChecker extends AbstractChessMoveChecker {
 
     @Override
     public PointState getPointState() {
-        return PointState.RED_ELEPHANT;
+        return PointState.RED_MINISTER;
     }
 
     @Override
-    public boolean checkMove(int targetX, int targetY) {
+    public boolean checkMove(int startX, int startY, int targetX, int targetY) {
         return false;
     }
 }

@@ -18,9 +18,4 @@ public class RedKingMoveChecker extends AbstractKingMoveChecker {
     public PointState getRivalKing() {
         return PointState.BLACK_KING;
     }
-
-    @Override
-    public boolean checkMove(int targetX, int targetY) {
-        return false;
-    }
 }
