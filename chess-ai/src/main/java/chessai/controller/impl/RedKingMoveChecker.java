@@ -1,7 +1,5 @@
 package chessai.controller.impl;
 
-import chessai.controller.AbstractChessMoveChecker;
-import chessai.model.ChessBoard;
 import chessai.model.PointState;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +20,7 @@ public class RedKingMoveChecker extends AbstractKingMoveChecker {
     }
 
     @Override
-    public boolean checkMove(ChessBoard chessBoard, int targetX, int targetY) {
+    public boolean checkMove(int targetX, int targetY) {
         return false;
     }
 }

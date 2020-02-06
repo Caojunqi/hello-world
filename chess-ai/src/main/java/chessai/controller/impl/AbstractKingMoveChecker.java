@@ -6,9 +6,6 @@ import chessai.model.PointState;
 import chessai.model.Position;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 棋子移动检测器-双方老将移动
  */
@@ -23,11 +20,38 @@ public abstract class AbstractKingMoveChecker extends AbstractChessMoveChecker {
     public abstract PointState getRivalKing();
 
     /**
+     * 是否老将见面
+     *
+     * @param targetX 棋子移动的目标点X坐标
+     * @param targetY 棋子移动的目标点Y坐标
+     * @return true-老将见面；false-老将不见面。
+     */
+    protected abstract boolean isKingFace(int targetX, int targetY);
+
+    /**
+     * 移动目标点是否在九宫格中
+     *
+     * @param targetX 棋子移动的目标点X坐标
+     * @param targetY 棋子移动的目标点Y坐标
+     * @return true-在九宫格中；false-不在九宫格中。
+     */
+    protected abstract boolean inPalace(int targetX, int targetY);
+
+    @Override
+    public boolean checkMove(int targetX, int targetY) {
+        if (isKingFace(targetX, targetY)) {
+            // 老将见面，移动不合法
+            return false;
+        }
+        return inPalace(targetX, targetY);
+    }
+
+    /**
      * 获取棋盘上敌方老将的位置
      *
      * @return 敌方老将位置信息
      */
-    private Position getRivalKingPosition() {
+    protected Position getRivalKingPosition() {
         for (int i = 0; i < ChessBoard.getInstance().getHeight(); i++) {
             for (int j = 0; j < ChessBoard.getInstance().getLength(); j++) {
                 if (ChessBoard.getInstance().getPointState(i, j) == getRivalKing()) {
@@ -38,19 +62,5 @@ public abstract class AbstractKingMoveChecker extends AbstractChessMoveChecker {
         throw new IllegalStateException(getRivalKing() + " 老将不见了！！");
     }
 
-    /**
-     * 走一步后双方老将是否会碰面
-     *
-     * @param targetX 移动目标点X坐标
-     * @param targetY 移动目标点Y坐标
-     * @return true-老将会碰面；false-老将不会碰面。
-     */
-    protected boolean isKingFace(int targetX, int targetY) {
-        Position rivalKingPosition = getRivalKingPosition();
-        if (rivalKingPosition.getY() != targetY) {
-            return false;
-        }
 
-        过完年回来，先写老将见面逻辑
-    }
 }

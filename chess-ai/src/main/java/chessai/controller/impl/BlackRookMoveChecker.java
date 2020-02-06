@@ -1,23 +1,22 @@
 package chessai.controller.impl;
 
 import chessai.controller.AbstractChessMoveChecker;
-import chessai.model.ChessBoard;
 import chessai.model.PointState;
 import org.springframework.stereotype.Component;
 
 /**
- * 棋子移动检测器--黑士
+ * 棋子移动检测器--黑车
  */
 @Component
-public class BlackBishopMoveChecker extends AbstractChessMoveChecker {
+public class BlackRookMoveChecker extends AbstractChessMoveChecker {
 
     @Override
     public PointState getPointState() {
-        return PointState.BLACK_BISHOP;
+        return PointState.BLACK_ROOK;
     }
 
     @Override
-    public boolean checkMove(ChessBoard chessBoard, int targetX, int targetY) {
+    public boolean checkMove(int targetX, int targetY) {
         return false;
     }
 }

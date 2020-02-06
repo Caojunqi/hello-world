@@ -15,11 +15,11 @@ public enum PointState {
     /**
      * 黑车
      */
-    BLACK_CAR(2, 2),
+    BLACK_ROOK(2, 2),
     /**
      * 黑马
      */
-    BLACK_HORSE(3, 2),
+    BLACK_KNIGHT(3, 2),
     /**
      * 黑炮
      */
@@ -27,11 +27,11 @@ public enum PointState {
     /**
      * 黑士
      */
-    BLACK_BISHOP(5, 2),
+    BLACK_GUARD(5, 2),
     /**
      * 黑象
      */
-    BLACK_ELEPHANT(6, 2),
+    BLACK_MINISTER(6, 2),
     /**
      * 黑兵
      */
@@ -43,11 +43,11 @@ public enum PointState {
     /**
      * 红车
      */
-    RED_CAR(9, 2),
+    RED_ROOK(9, 2),
     /**
      * 红马
      */
-    RED_HORSE(10, 2),
+    RED_KNIGHT(10, 2),
     /**
      * 红炮
      */
@@ -55,11 +55,11 @@ public enum PointState {
     /**
      * 红仕
      */
-    RED_BISHOP(12, 2),
+    RED_GUARD(12, 2),
     /**
      * 红相
      */
-    RED_ELEPHANT(13, 2),
+    RED_MINISTER(13, 2),
     /**
      * 红卒
      */

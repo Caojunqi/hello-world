@@ -5,9 +5,9 @@ package chessai.model;
  */
 public class ChessMove {
     /**
-     * 棋子
+     * 棋子类型
      */
-    private Chess chess;
+    private PointState pointState;
     /**
      * 本次移动的起点X坐标
      */
@@ -29,12 +29,12 @@ public class ChessMove {
      */
     private int score;
 
-    public Chess getChess() {
-        return chess;
+    public PointState getPointState() {
+        return pointState;
     }
 
-    public void setChess(Chess chess) {
-        this.chess = chess;
+    public void setPointState(PointState pointState) {
+        this.pointState = pointState;
     }
 
     public int getFromX() {

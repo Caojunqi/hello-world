@@ -1,6 +1,5 @@
 package chessai.controller;
 
-import chessai.model.ChessBoard;
 import chessai.model.PointState;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,10 +28,9 @@ public abstract class AbstractChessMoveChecker {
     /**
      * 检测棋子移动
      *
-     * @param chessBoard 棋盘
-     * @param targetX    移动目标点X坐标
-     * @param targetY    移动目标点Y坐标
+     * @param targetX 移动目标点X坐标
+     * @param targetY 移动目标点Y坐标
      * @return true-可移动至目标点；false-不可移动至目标点。
      */
-    public abstract boolean checkMove(ChessBoard chessBoard, int targetX, int targetY);
+    public abstract boolean checkMove(int targetX, int targetY);
 }

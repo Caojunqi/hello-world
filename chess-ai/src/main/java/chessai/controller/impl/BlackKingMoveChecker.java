@@ -1,12 +1,9 @@
 package chessai.controller.impl;
 
-import chessai.controller.AbstractChessMoveChecker;
 import chessai.model.ChessBoard;
 import chessai.model.PointState;
 import chessai.model.Position;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * 棋子移动检测器--黑帅
@@ -25,8 +22,19 @@ public class BlackKingMoveChecker extends AbstractKingMoveChecker {
     }
 
     @Override
-    public boolean checkMove(ChessBoard chessBoard, int targetX, int targetY) {
-        return false;
-    }
+    protected boolean isKingFace(int targetX, int targetY) {
+        Position rivalKingPosition = getRivalKingPosition();
+        if (rivalKingPosition.getX() != targetX) {
+            // 两个老将不在同一列
+            return false;
+        }
 
+        for (int i = targetY + 1; i < rivalKingPosition.getY(); i++) {
+            if (ChessBoard.getInstance().getPointState(targetX, i) != PointState.NO_CHESS) {
+                // 两个棋子中间有棋子
+                return false;
+            }
+        }
+        return true;
+    }
 }
