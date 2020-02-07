@@ -1,23 +1,16 @@
 package chessai.model;
 
-import chessai.controller.ChessIdGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 /**
  * 棋盘
  */
 @Component
 public class ChessBoard {
-
-    @Autowired
-    private ChessIdGenerator chessIdGenerator;
 
     private static ChessBoard self;
 
@@ -101,6 +94,52 @@ public class ChessBoard {
             }
         }
         return result;
+    }
+
+    /**
+     * 判断指定坐标点是否处于黑方九宫格中
+     *
+     * @param x 坐标点X坐标
+     * @param y 坐标点Y坐标
+     * @return true-坐标点处于黑方九宫格中；false-坐标点不处于黑方九宫格中。
+     */
+    public boolean inBlackPalace(int x, int y) {
+        if (y > 5) {
+            return false;
+        }
+
+        if (y < 3) {
+            return false;
+        }
+
+        if (x > 2) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 判断指定坐标点是否处于红方九宫格中
+     *
+     * @param x 坐标点X坐标
+     * @param y 坐标点Y坐标
+     * @return true-坐标点处于红方九宫格中；false-坐标点不处于红方九宫格中。
+     */
+    public boolean inRedPalace(int x, int y) {
+        if (x < 7) {
+            return false;
+        }
+
+        if (y < 3) {
+            return false;
+        }
+
+        if (y > 5) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

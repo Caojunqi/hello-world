@@ -1,6 +1,6 @@
 package chessai.controller.impl;
 
-import chessai.controller.AbstractChessMoveChecker;
+import chessai.model.ChessBoard;
 import chessai.model.PointState;
 import org.springframework.stereotype.Component;
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * 棋子移动检测器--黑士
  */
 @Component
-public class BlackGuardMoveChecker extends AbstractChessMoveChecker {
+public class BlackGuardMoveChecker extends AbstractGuardMoveChecker {
 
     @Override
     public PointState getPointState() {
@@ -16,7 +16,7 @@ public class BlackGuardMoveChecker extends AbstractChessMoveChecker {
     }
 
     @Override
-    public boolean checkMove(int startX, int startY, int targetX, int targetY) {
-        return false;
+    protected boolean inPalace(int targetX, int targetY) {
+        return ChessBoard.getInstance().inBlackPalace(targetX, targetY);
     }
 }

@@ -4,12 +4,10 @@ import chessai.controller.AbstractChessMoveChecker;
 import chessai.model.ChessBoard;
 import chessai.model.PointState;
 import chessai.model.Position;
-import org.springframework.stereotype.Component;
 
 /**
  * 棋子移动检测器-双方老将移动
  */
-@Component
 public abstract class AbstractKingMoveChecker extends AbstractChessMoveChecker {
 
     /**

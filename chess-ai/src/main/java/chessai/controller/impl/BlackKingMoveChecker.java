@@ -40,18 +40,6 @@ public class BlackKingMoveChecker extends AbstractKingMoveChecker {
 
     @Override
     protected boolean inPalace(int targetX, int targetY) {
-        if (targetY > 5) {
-            return false;
-        }
-
-        if (targetY < 3) {
-            return false;
-        }
-
-        if (targetX > 2) {
-            return false;
-        }
-
-        return true;
+        return ChessBoard.getInstance().inBlackPalace(targetX, targetY);
     }
 }
