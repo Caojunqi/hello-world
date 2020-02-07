@@ -143,6 +143,28 @@ public class ChessBoard {
     }
 
     /**
+     * 判断指定坐标点是否处于黑方领土
+     *
+     * @param x 坐标点X坐标
+     * @param y 坐标点Y坐标
+     * @return true-坐标点处于黑方领土中；false-坐标点处于红方领土。
+     */
+    public boolean inBlackSide(int x, int y) {
+        return x < 5;
+    }
+
+    /**
+     * 判断指定坐标点是否处于红方领土
+     *
+     * @param x 坐标点X坐标
+     * @param y 坐标点Y坐标
+     * @return true-坐标点处于红方领土中；false-坐标点处于黑方领土。
+     */
+    public boolean inRedSide(int x, int y) {
+        return !inBlackSide(x, y);
+    }
+
+    /**
      * 获取棋盘长度
      *
      * @return 棋盘长
