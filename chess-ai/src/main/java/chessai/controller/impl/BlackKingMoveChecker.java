@@ -40,15 +40,15 @@ public class BlackKingMoveChecker extends AbstractKingMoveChecker {
 
     @Override
     protected boolean inPalace(int targetX, int targetY) {
-        if (targetX > 5) {
+        if (targetY > 5) {
             return false;
         }
 
-        if (targetX < 3) {
+        if (targetY < 3) {
             return false;
         }
 
-        if (targetY > 2) {
+        if (targetX > 2) {
             return false;
         }
 
