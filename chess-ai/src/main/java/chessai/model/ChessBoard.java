@@ -191,13 +191,13 @@ public class ChessBoard {
             if (y1 < y2) {
                 for (int i = y1 + 1; i < y2; i++) {
                     if (getPointState(x1, i) != PointState.NO_CHESS) {
-                        return false;
+                        return true;
                     }
                 }
             } else {
                 for (int i = y2 + 1; i < y1; i++) {
                     if (getPointState(x1, i) != PointState.NO_CHESS) {
-                        return false;
+                        return true;
                     }
                 }
             }
@@ -207,19 +207,79 @@ public class ChessBoard {
             if (x1 < x2) {
                 for (int i = x1 + 1; i < x2; i++) {
                     if (getPointState(i, y1) != PointState.NO_CHESS) {
-                        return false;
+                        return true;
                     }
                 }
             } else {
                 for (int i = x2 + 1; i < x1; i++) {
                     if (getPointState(i, y1) != PointState.NO_CHESS) {
-                        return false;
+                        return true;
                     }
                 }
             }
         }
 
-        return true;
+        return false;
+    }
+
+    /**
+     * 判断两点之间是否只有一个棋子
+     *
+     * @param x1 点1的X坐标
+     * @param y1 点1的Y坐标
+     * @param x2 点2的X坐标
+     * @param y2 点2的Y坐标
+     * @return true-移动的起点和终点之间有一个棋子；false-移动的起点和终点之间的棋子数量。
+     */
+    public boolean hasOneChess(int x1, int y1, int x2, int y2) {
+        int count = 0;
+        if (x1 != x2 && y1 != y2) {
+            //两点不在同一水平或同一垂直线上，状态不正常
+            SystemOut.error("不能使用hasOneChess接口来判断两个不在同一水平或同一垂直线的点之间是否只有一个其余棋子，点1：[" + x1 + "," + y1 + "]，点2：[" + x2 + "," + y2 + "]");
+            return false;
+        }
+
+        if (x1 == x2 && y1 == y2) {
+            // 两点为同一点
+            return false;
+        }
+
+        // 两点水平
+        if (x1 == x2) {
+            if (y1 < y2) {
+                for (int i = y1 + 1; i < y2; i++) {
+                    if (getPointState(x1, i) != PointState.NO_CHESS) {
+                        count++;
+                    }
+                }
+                return count == 1;
+            } else {
+                for (int i = y2 + 1; i < y1; i++) {
+                    if (getPointState(x1, i) != PointState.NO_CHESS) {
+                        count++;
+                    }
+                }
+                return count == 1;
+            }
+        }
+        // 两点垂直
+        else {
+            if (x1 < x2) {
+                for (int i = x1 + 1; i < x2; i++) {
+                    if (getPointState(i, y1) != PointState.NO_CHESS) {
+                        count++;
+                    }
+                }
+                return count == 1;
+            } else {
+                for (int i = x2 + 1; i < x1; i++) {
+                    if (getPointState(i, y1) != PointState.NO_CHESS) {
+                        count++;
+                    }
+                }
+                return count == 1;
+            }
+        }
     }
 
     /**
