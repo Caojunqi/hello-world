@@ -5,75 +5,64 @@ package chessai.model;
  */
 public class ChessMove {
     /**
-     * 棋子类型
-     */
-    private PointState pointState;
-    /**
      * 本次移动的起点X坐标
      */
-    private int fromX;
+    private int startX;
     /**
      * 本次移动的起点Y坐标
      */
-    private int fromY;
+    private int startY;
     /**
      * 本次移动的终点X坐标
      */
-    private int toX;
+    private int targetX;
     /**
      * 本次移动的终点Y坐标
      */
-    private int toY;
-    /**
-     * 本次移动产生的价值
-     */
-    private int score;
+    private int targetY;
 
-    public PointState getPointState() {
-        return pointState;
+    private ChessMove() {
+        // 私有化构造器
     }
 
-    public void setPointState(PointState pointState) {
-        this.pointState = pointState;
+    public static ChessMove valueOf(int startX, int startY, int targetX, int targetY) {
+        ChessMove chessMove = new ChessMove();
+        chessMove.startX = startX;
+        chessMove.startY = startY;
+        chessMove.targetX = targetX;
+        chessMove.targetY = targetY;
+        return chessMove;
     }
 
-    public int getFromX() {
-        return fromX;
+    public int getStartX() {
+        return startX;
     }
 
-    public void setFromX(int fromX) {
-        this.fromX = fromX;
+    public void setStartX(int startX) {
+        this.startX = startX;
     }
 
-    public int getFromY() {
-        return fromY;
+    public int getStartY() {
+        return startY;
     }
 
-    public void setFromY(int fromY) {
-        this.fromY = fromY;
+    public void setStartY(int startY) {
+        this.startY = startY;
     }
 
-    public int getToX() {
-        return toX;
+    public int getTargetX() {
+        return targetX;
     }
 
-    public void setToX(int toX) {
-        this.toX = toX;
+    public void setTargetX(int targetX) {
+        this.targetX = targetX;
     }
 
-    public int getToY() {
-        return toY;
+    public int getTargetY() {
+        return targetY;
     }
 
-    public void setToY(int toY) {
-        this.toY = toY;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
+    public void setTargetY(int targetY) {
+        this.targetY = targetY;
     }
 }
