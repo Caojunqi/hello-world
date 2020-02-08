@@ -1,5 +1,6 @@
 package chessai.model;
 
+import chessai.common.SystemOut;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -162,6 +163,63 @@ public class ChessBoard {
      */
     public boolean inRedSide(int x, int y) {
         return !inBlackSide(x, y);
+    }
+
+    /**
+     * 判断棋盘上两点之间是否有其他棋子
+     *
+     * @param x1 1点的X坐标
+     * @param y1 1点的Y坐标
+     * @param x2 2点的X坐标
+     * @param y2 2点的Y坐标
+     * @return true-两点之间有其他棋子；false-两点之间没有其他棋子。
+     */
+    public boolean hasOtherChess(int x1, int y1, int x2, int y2) {
+        if (x1 != x2 && y1 != y2) {
+            //两点不在同一水平或同一垂直线上，状态不正常，返回有棋子
+            SystemOut.error("不能使用hasOtherChess接口来判断两个不在同一水平或同一垂直线的点之间的状态，点1：[" + x1 + "," + y1 + "]，点2：[" + x2 + "," + y2 + "]");
+            return true;
+        }
+
+        if (x1 == x2 && y1 == y2) {
+            // 两点为同一点
+            return false;
+        }
+
+        // 两点水平
+        if (x1 == x2) {
+            if (y1 < y2) {
+                for (int i = y1 + 1; i < y2; i++) {
+                    if (getPointState(x1, i) != PointState.NO_CHESS) {
+                        return false;
+                    }
+                }
+            } else {
+                for (int i = y2 + 1; i < y1; i++) {
+                    if (getPointState(x1, i) != PointState.NO_CHESS) {
+                        return false;
+                    }
+                }
+            }
+        }
+        // 两点垂直
+        else {
+            if (x1 < x2) {
+                for (int i = x1 + 1; i < x2; i++) {
+                    if (getPointState(i, y1) != PointState.NO_CHESS) {
+                        return false;
+                    }
+                }
+            } else {
+                for (int i = x2 + 1; i < x1; i++) {
+                    if (getPointState(i, y1) != PointState.NO_CHESS) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
