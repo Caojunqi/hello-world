@@ -1,14 +1,17 @@
 package chessai.controller.movegenerator.impl;
 
-import chessai.controller.movegenerator.AbstractChessMoveGenerator;
 import chessai.model.PointState;
+import chessai.model.Position;
+import chessai.util.ChessBoardUtils;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 棋子走法生成器--红仕
  */
 @Component
-public class RedGuardMoveGenerator extends AbstractChessMoveGenerator {
+public class RedGuardMoveGenerator extends AbstractFixedPointChessMoveGenerator {
 
     @Override
     public PointState getPointState() {
@@ -16,7 +19,7 @@ public class RedGuardMoveGenerator extends AbstractChessMoveGenerator {
     }
 
     @Override
-    public void generateMove(PointState[][] boardPosition, int startX, int startY, int nPly) {
-
+    protected List<Position> getFixedPoints() {
+        return ChessBoardUtils.RED_GUARD_MOVE_POINTS;
     }
 }

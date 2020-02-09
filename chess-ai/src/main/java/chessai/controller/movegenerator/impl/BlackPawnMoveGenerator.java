@@ -1,14 +1,14 @@
 package chessai.controller.movegenerator.impl;
 
-import chessai.controller.movegenerator.AbstractChessMoveGenerator;
 import chessai.model.PointState;
+import chessai.util.ChessBoardUtils;
 import org.springframework.stereotype.Component;
 
 /**
  * 棋子走法生成器--黑兵
  */
 @Component
-public class BlackPawnMoveGenerator extends AbstractChessMoveGenerator {
+public class BlackPawnMoveGenerator extends AbstractPawnMoveGenerator {
 
     @Override
     public PointState getPointState() {
@@ -16,7 +16,13 @@ public class BlackPawnMoveGenerator extends AbstractChessMoveGenerator {
     }
 
     @Override
-    public void generateMove(PointState[][] boardPosition, int startX, int startY, int nPly) {
-
+    protected int moveForward(int startX) {
+        return startX + 1;
     }
+
+    @Override
+    protected boolean isCrossRiver(int startX, int startY) {
+        return ChessBoardUtils.inRedSide(startX, startY);
+    }
+
 }

@@ -6,6 +6,7 @@ import chessai.model.CampType;
 import chessai.model.ChessBoard;
 import chessai.model.ChessMove;
 import chessai.model.PointState;
+import chessai.util.ChessBoardUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -70,7 +71,12 @@ public class ChessMoveManager {
      * @param targetY       要移动的目标点Y坐标
      * @return true-棋子移动合法；false-棋子移动不合法。
      */
-    private boolean isValidMove(PointState[][] boardPosition, int startX, int startY, int targetX, int targetY) {
+    public boolean isValidMove(PointState[][] boardPosition, int startX, int startY, int targetX, int targetY) {
+        if (ChessBoardUtils.inBoard(targetX, targetY)) {
+            // 目标点超出棋盘范围
+            return false;
+        }
+
         if (startX == targetX && startY == targetY) {
             // 目标与源相同
             return false;
@@ -96,7 +102,7 @@ public class ChessMoveManager {
      * @param targetY 移动目标点Y坐标
      * @param nPly    搜索层数
      */
-    private void addMove(int startX, int startY, int targetX, int targetY, int nPly) {
+    public void addMove(int startX, int startY, int targetX, int targetY, int nPly) {
         this.moves.computeIfAbsent(nPly, n -> new ArrayList<>()).add(ChessMove.valueOf(startX, startY, targetX, targetY));
     }
 

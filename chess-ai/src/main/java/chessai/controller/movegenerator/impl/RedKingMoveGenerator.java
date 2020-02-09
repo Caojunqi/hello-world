@@ -17,6 +17,11 @@ public class RedKingMoveGenerator extends AbstractChessMoveGenerator {
 
     @Override
     public void generateMove(PointState[][] boardPosition, int startX, int startY, int nPly) {
-
+        for (int x = 7; x < 10; x++) {
+            for (int y = 3; y < 6; y++) {
+                checkAddMove(boardPosition, startX, startY, x, y, nPly);
+            }
+        }
     }
+
 }

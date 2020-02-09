@@ -1,6 +1,5 @@
 package chessai.controller.movegenerator.impl;
 
-import chessai.controller.movegenerator.AbstractChessMoveGenerator;
 import chessai.model.PointState;
 import org.springframework.stereotype.Component;
 
@@ -8,15 +7,11 @@ import org.springframework.stereotype.Component;
  * 棋子走法生成器--红马
  */
 @Component
-public class RedKnightMoveGenerator extends AbstractChessMoveGenerator {
+public class RedKnightMoveGenerator extends AbstractKnightMoveGenerator {
 
     @Override
     public PointState getPointState() {
         return PointState.RED_KNIGHT;
     }
 
-    @Override
-    public void generateMove(PointState[][] boardPosition, int startX, int startY, int nPly) {
-
-    }
 }

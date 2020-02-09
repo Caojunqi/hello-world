@@ -2,11 +2,56 @@ package chessai.util;
 
 import chessai.common.SystemOut;
 import chessai.model.PointState;
+import chessai.model.Position;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 棋盘工具类
  */
 public final class ChessBoardUtils {
+
+    /**
+     * 红仕可移动位置集合
+     */
+    public static List<Position> RED_GUARD_MOVE_POINTS = new ArrayList<>();
+    /**
+     * 黑士可移动位置集合
+     */
+    public static List<Position> BLACK_GUARD_MOVE_POINTS = new ArrayList<>();
+    /**
+     * 红相可移动位置集合
+     */
+    public static List<Position> RED_MINISTER_MOVE_POINTS = new ArrayList<>();
+    /**
+     * 黑象可移动位置集合
+     */
+    public static List<Position> BLACK_MINISTER_MOVE_POINTS = new ArrayList<>();
+
+    static {
+        initRedGuardMovePoints();
+        initBlackGuardMovePoints();
+        initRedMinisterMovePoints();
+        initBlackMinisterMovePoints();
+    }
+
+    /**
+     * 判断指定坐标点是否在棋盘中
+     *
+     * @param x 坐标点X坐标
+     * @param y 坐标点Y坐标
+     * @return true-坐标点在棋盘中；坐标点不在棋盘中。
+     */
+    public static boolean inBoard(int x, int y) {
+        if (x < 0 || x > 9) {
+            return false;
+        }
+        if (y < 0 || y > 8) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * 判断指定坐标点是否处于黑方九宫格中
@@ -193,6 +238,53 @@ public final class ChessBoardUtils {
                 return count == 1;
             }
         }
+    }
+
+    /**
+     * 初始化红仕可移动位置集合
+     */
+    private static void initRedGuardMovePoints() {
+        RED_GUARD_MOVE_POINTS.add(Position.valueOf(9, 3));
+        RED_GUARD_MOVE_POINTS.add(Position.valueOf(9, 5));
+        RED_GUARD_MOVE_POINTS.add(Position.valueOf(8, 4));
+        RED_GUARD_MOVE_POINTS.add(Position.valueOf(7, 3));
+        RED_GUARD_MOVE_POINTS.add(Position.valueOf(7, 5));
+    }
+
+    /**
+     * 初始化黑士可移动位置集合
+     */
+    private static void initBlackGuardMovePoints() {
+        BLACK_GUARD_MOVE_POINTS.add(Position.valueOf(0, 3));
+        BLACK_GUARD_MOVE_POINTS.add(Position.valueOf(0, 5));
+        BLACK_GUARD_MOVE_POINTS.add(Position.valueOf(1, 4));
+        BLACK_GUARD_MOVE_POINTS.add(Position.valueOf(2, 3));
+        BLACK_GUARD_MOVE_POINTS.add(Position.valueOf(2, 5));
+    }
+
+    /**
+     * 初始化红相可移动位置集合
+     */
+    private static void initRedMinisterMovePoints() {
+        RED_MINISTER_MOVE_POINTS.add(Position.valueOf(9, 2));
+        RED_MINISTER_MOVE_POINTS.add(Position.valueOf(7, 0));
+        RED_MINISTER_MOVE_POINTS.add(Position.valueOf(5, 2));
+        RED_MINISTER_MOVE_POINTS.add(Position.valueOf(7, 4));
+        RED_MINISTER_MOVE_POINTS.add(Position.valueOf(9, 6));
+        RED_MINISTER_MOVE_POINTS.add(Position.valueOf(7, 8));
+        RED_MINISTER_MOVE_POINTS.add(Position.valueOf(5, 6));
+    }
+
+    /**
+     * 初始化黑象可移动位置集合
+     */
+    private static void initBlackMinisterMovePoints() {
+        BLACK_MINISTER_MOVE_POINTS.add(Position.valueOf(0, 2));
+        BLACK_MINISTER_MOVE_POINTS.add(Position.valueOf(2, 0));
+        BLACK_MINISTER_MOVE_POINTS.add(Position.valueOf(4, 2));
+        BLACK_MINISTER_MOVE_POINTS.add(Position.valueOf(2, 4));
+        BLACK_MINISTER_MOVE_POINTS.add(Position.valueOf(0, 6));
+        BLACK_MINISTER_MOVE_POINTS.add(Position.valueOf(2, 8));
     }
 
 }
