@@ -12,6 +12,10 @@ import java.util.List;
  */
 public final class ChessBoardUtils {
 
+    private ChessBoardUtils() {
+        // 此工具类不允许被实例化
+    }
+
     /**
      * 红仕可移动位置集合
      */
@@ -238,6 +242,40 @@ public final class ChessBoardUtils {
                 return count == 1;
             }
         }
+    }
+
+    /**
+     * 指定棋局中红方是否依然存活
+     *
+     * @param boardPosition 所面对的棋局局势
+     * @return true-红方存活；false-红方失败
+     */
+    public static boolean isRedLive(PointState[][] boardPosition) {
+        for (int x = 7; x < 9; x++) {
+            for (int y = 3; y < 6; y++) {
+                if (boardPosition[x][y] == PointState.RED_KING) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 指定棋局中黑方是否依然存活
+     *
+     * @param boardPosition 所面对的棋局局势
+     * @return true-黑方存活；false-黑方失败
+     */
+    public static boolean isBlackLive(PointState[][] boardPosition) {
+        for (int x = 0; x < 3; x++) {
+            for (int y = 3; y < 6; y++) {
+                if (boardPosition[x][y] == PointState.BLACK_KING) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
