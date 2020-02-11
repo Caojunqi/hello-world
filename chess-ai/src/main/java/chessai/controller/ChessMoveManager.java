@@ -2,7 +2,6 @@ package chessai.controller;
 
 import chessai.controller.movechecker.AbstractChessMoveChecker;
 import chessai.controller.movegenerator.AbstractChessMoveGenerator;
-import chessai.model.CampType;
 import chessai.model.ChessBoard;
 import chessai.model.ChessMove;
 import chessai.model.PointState;
@@ -42,16 +41,15 @@ public class ChessMoveManager {
      *
      * @param boardPosition 当前局势
      * @param nPly          当前搜索的层数，同一棋子在每层的走法存在不同的位置
-     * @param campType      当前产生哪一阵营的走法
      */
-    public void createPossibleMoves(PointState[][] boardPosition, int nPly, CampType campType) {
+    public void createPossibleMoves(PointState[][] boardPosition, int nPly) {
         for (int i = 0; i < ChessBoard.CHESS_BOARD_HEIGHT; i++) {
             for (int j = 0; j < ChessBoard.CHESS_BOARD_LENGTH; j++) {
                 PointState pointState = boardPosition[i][j];
                 if (pointState == PointState.NO_CHESS) {
                     continue;
                 }
-                if (!pointState.isSameCamp(campType)) {
+                if (!pointState.isSameCamp(ChessBoardUtils.AI_CAMP)) {
                     continue;
                 }
 
@@ -104,6 +102,27 @@ public class ChessMoveManager {
      */
     public void addMove(int startX, int startY, int targetX, int targetY, int nPly) {
         this.moves.computeIfAbsent(nPly, n -> new ArrayList<>()).add(ChessMove.valueOf(startX, startY, targetX, targetY));
+    }
+
+    /**
+     * 获取指定搜索层数的所有合理走法
+     *
+     * @param nPly 搜索层数
+     * @return 该指定搜索层数的所有合理走法
+     */
+    public List<ChessMove> getPossibleMoves(int nPly) {
+        List<ChessMove> possibleMoves = moves.get(nPly);
+        if (possibleMoves == null) {
+            possibleMoves = new ArrayList<>();
+        }
+        return possibleMoves;
+    }
+
+    /**
+     * 清空所有合理走法
+     */
+    public void clearPossibleMoves() {
+        this.moves.clear();
     }
 
 }

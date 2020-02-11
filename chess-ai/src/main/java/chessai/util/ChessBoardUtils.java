@@ -1,6 +1,7 @@
 package chessai.util;
 
 import chessai.common.SystemOut;
+import chessai.model.CampType;
 import chessai.model.PointState;
 import chessai.model.Position;
 
@@ -15,6 +16,19 @@ public final class ChessBoardUtils {
     private ChessBoardUtils() {
         // 此工具类不允许被实例化
     }
+
+    /**
+     * 棋局采取红方先手，黑方为AI，如果棋面呈胶着状态，棋面估值为0，黑方占优势，估值为正数，红方占优势，估值为负数。
+     */
+    public static int MAX_EVALUATE_VALUE = 2000;
+    /**
+     * 棋局默认红方是玩家，黑方是AI
+     */
+    public static CampType AI_CAMP = CampType.BLACK;
+    /**
+     * 每次预测步数
+     */
+    public static int SEARCH_DEPTH = 4;
 
     /**
      * 红仕可移动位置集合
