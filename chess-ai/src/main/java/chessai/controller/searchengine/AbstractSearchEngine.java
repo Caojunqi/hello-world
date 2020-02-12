@@ -3,6 +3,7 @@ package chessai.controller.searchengine;
 import chessai.model.ChessMove;
 import chessai.model.PointState;
 import chessai.util.ChessBoardUtils;
+import chessai.util.RandomUtils;
 
 /**
  * 搜索引擎抽象类
@@ -70,5 +71,27 @@ public abstract class AbstractSearchEngine {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 估值函数
+     *
+     * @param boardPosition 待估值棋面
+     * @param curDepth      当前剩余搜索层数
+     * @param maxDepth      本次搜索计划的最大搜索层数
+     * @return 估值结果
+     */
+    protected int evaluate(PointState[][] boardPosition, int curDepth, int maxDepth) {
+        int ratio = (maxDepth + curDepth) % 2 == 0 ? -1 : 1;
+        if (ChessBoardUtils.AI_CAMP.isWin(boardPosition)) {
+            return ratio * ChessBoardUtils.MAX_EVALUATE_VALUE;
+        }
+
+        if (ChessBoardUtils.AI_CAMP.isLose(boardPosition)) {
+            return -ratio * ChessBoardUtils.MAX_EVALUATE_VALUE;
+        }
+
+        // TODO 编写具体的估值函数
+        return ratio * RandomUtils.betweenInt(1, 1998, true);
     }
 }
