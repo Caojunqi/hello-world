@@ -20,7 +20,7 @@ public final class ChessBoardUtils {
     /**
      * 棋局采取红方先手，黑方为AI，如果棋面呈胶着状态，棋面估值为0，黑方占优势，估值为正数，红方占优势，估值为负数。
      */
-    public static int MAX_EVALUATE_VALUE = 2000;
+    public static int MAX_EVALUATE_VALUE = 20000;
     /**
      * 棋局默认红方是玩家，黑方是AI
      */

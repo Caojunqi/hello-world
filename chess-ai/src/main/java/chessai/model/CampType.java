@@ -21,6 +21,16 @@ public enum CampType {
             // 中立方永远不可能失败
             return false;
         }
+
+        @Override
+        public PointState getEnemyKing() {
+            throw new IllegalStateException("不应该对无子棋点判断敌方老将！！");
+        }
+
+        @Override
+        public PointState getSelfKing() {
+            throw new IllegalStateException("不应该对无子棋点判断己方老将！！");
+        }
     },
     /**
      * 红方
@@ -37,6 +47,16 @@ public enum CampType {
             // 红将阵亡，红方失败
             return !ChessBoardUtils.isRedLive(boardPosition);
         }
+
+        @Override
+        public PointState getEnemyKing() {
+            return PointState.BLACK_KING;
+        }
+
+        @Override
+        public PointState getSelfKing() {
+            return PointState.RED_KING;
+        }
     },
     /**
      * 黑方
@@ -52,6 +72,16 @@ public enum CampType {
         public boolean isLose(PointState[][] boardPosition) {
             // 黑帅阵亡，黑方失败
             return !ChessBoardUtils.isBlackLive(boardPosition);
+        }
+
+        @Override
+        public PointState getEnemyKing() {
+            return PointState.RED_KING;
+        }
+
+        @Override
+        public PointState getSelfKing() {
+            return PointState.BLACK_KING;
         }
     },
     ;
@@ -71,4 +101,18 @@ public enum CampType {
      * @return true-失败；false-获胜。
      */
     public abstract boolean isLose(PointState[][] boardPosition);
+
+    /**
+     * 获取敌方老将的状态类型
+     *
+     * @return 敌方老将的状态类型
+     */
+    public abstract PointState getEnemyKing();
+
+    /**
+     * 获取己方老将的状态类型
+     *
+     * @return 己方老将的状态类型
+     */
+    public abstract PointState getSelfKing();
 }
