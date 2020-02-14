@@ -1,11 +1,14 @@
 package chessai.controller.evaluation.jia;
 
+import chessai.controller.ChessManager;
 import chessai.controller.evaluation.jia.chessevaluator.AbstractChessEvaluator;
+import chessai.controller.movegenerator.AbstractChessMoveGenerator;
 import chessai.model.CampType;
 import chessai.model.ChessBoard;
 import chessai.model.PointState;
 import chessai.model.Position;
 import chessai.util.ChessBoardUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -16,6 +19,8 @@ import java.util.Map;
  */
 @Component
 public class JiaBoardEvaluator {
+    @Autowired
+    private ChessManager chessManager;
 
     // 每种棋子的基本价值
     // 兵-100 士-250 象-250 车-500 马-350 炮-350 将-10000
@@ -166,7 +171,8 @@ public class JiaBoardEvaluator {
                     continue;
                 }
                 AbstractChessEvaluator chessEvaluator = getChessEvaluator(pointState);
-                for (Position position : chessEvaluator.getRelatePieces(boardPosition, i, j)) {
+                AbstractChessMoveGenerator chessMoveGenerator = chessManager.getChessMoveGenerator(pointState);
+                for (Position position : chessMoveGenerator.generateMove(boardPosition, i, j)) {
                     PointState targetState = boardPosition[position.getX()][position.getY()];
                     if (targetState == PointState.NO_CHESS) {
                         // 如果目标点事空白的，灵活性增加

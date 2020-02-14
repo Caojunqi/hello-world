@@ -2,7 +2,11 @@ package chessai.controller.movegenerator.impl;
 
 import chessai.controller.movegenerator.AbstractChessMoveGenerator;
 import chessai.model.PointState;
+import chessai.model.Position;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 棋子走法生成器--红将
@@ -16,12 +20,16 @@ public class RedKingMoveGenerator extends AbstractChessMoveGenerator {
     }
 
     @Override
-    public void generateMove(PointState[][] boardPosition, int startX, int startY, int nPly) {
+    public List<Position> generateMove(PointState[][] boardPosition, int startX, int startY) {
+        List<Position> positions = new ArrayList<>();
         for (int x = 7; x < 10; x++) {
             for (int y = 3; y < 6; y++) {
-                checkAddMove(boardPosition, startX, startY, x, y, nPly);
+                if (chessMoveManager.isValidMove(boardPosition, startX, startY, x, y)) {
+                    positions.add(Position.valueOf(x, y));
+                }
             }
         }
+        return positions;
     }
 
 }

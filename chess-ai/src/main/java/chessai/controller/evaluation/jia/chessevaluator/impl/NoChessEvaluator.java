@@ -2,11 +2,7 @@ package chessai.controller.evaluation.jia.chessevaluator.impl;
 
 import chessai.controller.evaluation.jia.chessevaluator.AbstractChessEvaluator;
 import chessai.model.PointState;
-import chessai.model.Position;
 import org.springframework.stereotype.Component;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 棋子评估器--无棋
@@ -29,9 +25,4 @@ public class NoChessEvaluator extends AbstractChessEvaluator {
         return 0;
     }
 
-    @Override
-    public List<Position> getRelatePieces(PointState[][] boardPosition, int x, int y) {
-        // 任何位置都与无棋点无关
-        return Collections.emptyList();
-    }
 }

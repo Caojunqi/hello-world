@@ -2,6 +2,10 @@ package chessai.controller.movegenerator.impl;
 
 import chessai.controller.movegenerator.AbstractChessMoveGenerator;
 import chessai.model.PointState;
+import chessai.model.Position;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 棋子走法生成器--双方兵移动
@@ -26,21 +30,29 @@ public abstract class AbstractPawnMoveGenerator extends AbstractChessMoveGenerat
     protected abstract int moveForward(int startX);
 
     @Override
-    public void generateMove(PointState[][] boardPosition, int startX, int startY, int nPly) {
+    public List<Position> generateMove(PointState[][] boardPosition, int startX, int startY) {
+        List<Position> positions = new ArrayList<>();
         int targetX, targetY;
         // 小兵前进
         targetX = moveForward(startX);
         targetY = startY;
-        checkAddMove(boardPosition, startX, startY, targetX, targetY, nPly);
+        if (chessMoveManager.isValidMove(boardPosition, startX, startY, targetX, targetY)) {
+            positions.add(Position.valueOf(targetX, targetY));
+        }
         // 过河后小兵可以左右移动
         if (isCrossRiver(startX, startY)) {
             targetX = startX;
             targetY = startY - 1;
-            checkAddMove(boardPosition, startX, startY, targetX, targetY, nPly);
+            if (chessMoveManager.isValidMove(boardPosition, startX, startY, targetX, targetY)) {
+                positions.add(Position.valueOf(targetX, targetY));
+            }
 
             targetY = startY + 1;
-            checkAddMove(boardPosition, startX, startY, targetX, targetY, nPly);
+            if (chessMoveManager.isValidMove(boardPosition, startX, startY, targetX, targetY)) {
+                positions.add(Position.valueOf(targetX, targetY));
+            }
         }
+        return positions;
     }
 
 }

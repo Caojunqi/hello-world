@@ -5,6 +5,7 @@ import chessai.controller.movegenerator.AbstractChessMoveGenerator;
 import chessai.model.ChessBoard;
 import chessai.model.ChessMove;
 import chessai.model.PointState;
+import chessai.model.Position;
 import chessai.util.ChessBoardUtils;
 import org.springframework.stereotype.Component;
 
@@ -54,7 +55,10 @@ public class ChessMoveManager {
                 }
 
                 AbstractChessMoveGenerator moveGenerator = ChessManager.getInstance().getChessMoveGenerator(pointState);
-                moveGenerator.generateMove(boardPosition, i, j, nPly);
+                List<Position> positions = moveGenerator.generateMove(boardPosition, i, j);
+                for (Position position : positions) {
+                    addMove(i, j, position.getX(), position.getY(), nPly);
+                }
             }
         }
     }

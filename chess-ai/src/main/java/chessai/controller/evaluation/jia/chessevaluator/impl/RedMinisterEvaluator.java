@@ -2,10 +2,7 @@ package chessai.controller.evaluation.jia.chessevaluator.impl;
 
 import chessai.controller.evaluation.jia.chessevaluator.AbstractChessEvaluator;
 import chessai.model.PointState;
-import chessai.model.Position;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * 棋子评估器--红相
@@ -27,8 +24,4 @@ public class RedMinisterEvaluator extends AbstractChessEvaluator {
         return jiaBoardEvaluator.MINISTER_FLEXIBILITY;
     }
 
-    @Override
-    public List<Position> getRelatePieces(PointState[][] boardPosition, int x, int y) {
-        return null;
-    }
 }

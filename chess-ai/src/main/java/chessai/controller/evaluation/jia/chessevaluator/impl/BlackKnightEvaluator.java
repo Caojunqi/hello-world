@@ -2,10 +2,7 @@ package chessai.controller.evaluation.jia.chessevaluator.impl;
 
 import chessai.controller.evaluation.jia.chessevaluator.AbstractChessEvaluator;
 import chessai.model.PointState;
-import chessai.model.Position;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * 棋子评估器--黑马
@@ -28,8 +25,4 @@ public class BlackKnightEvaluator extends AbstractChessEvaluator {
         return jiaBoardEvaluator.KNIGHT_FLEXIBILITY;
     }
 
-    @Override
-    public List<Position> getRelatePieces(PointState[][] boardPosition, int x, int y) {
-        return null;
-    }
 }

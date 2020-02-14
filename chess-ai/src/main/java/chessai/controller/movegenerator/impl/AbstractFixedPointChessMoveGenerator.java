@@ -4,6 +4,7 @@ import chessai.controller.movegenerator.AbstractChessMoveGenerator;
 import chessai.model.PointState;
 import chessai.model.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,10 +20,14 @@ public abstract class AbstractFixedPointChessMoveGenerator extends AbstractChess
     protected abstract List<Position> getFixedPoints();
 
     @Override
-    public void generateMove(PointState[][] boardPosition, int startX, int startY, int nPly) {
+    public List<Position> generateMove(PointState[][] boardPosition, int startX, int startY) {
+        List<Position> positions = new ArrayList<>();
         for (Position position : getFixedPoints()) {
-            checkAddMove(boardPosition, startX, startY, position.getX(), position.getY(), nPly);
+            if (chessMoveManager.isValidMove(boardPosition, startX, startY, position.getX(), position.getY())) {
+                positions.add(Position.valueOf(position.getX(), position.getY()));
+            }
         }
+        return positions;
     }
 
 }

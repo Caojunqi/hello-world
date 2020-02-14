@@ -2,6 +2,10 @@ package chessai.controller.movegenerator.impl;
 
 import chessai.controller.movegenerator.AbstractChessMoveGenerator;
 import chessai.model.PointState;
+import chessai.model.Position;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 棋子走法生成器--双方炮移动
@@ -9,15 +13,15 @@ import chessai.model.PointState;
 public abstract class AbstractCannonMoveGenerator extends AbstractChessMoveGenerator {
 
     @Override
-    public void generateMove(PointState[][] boardPosition, int startX, int startY, int nPly) {
-        PointState startState = boardPosition[startX][startY];
+    public List<Position> generateMove(PointState[][] boardPosition, int startX, int startY) {
+        List<Position> positions = new ArrayList<>();
         CheckData checkData = new CheckData();
         int targetX, targetY;
         // 插入向右方向的可走位置
         targetX = startX;
         targetY = startY + 1;
         while (targetY < 9) {
-            checkCannonMove(boardPosition, startX, startY, targetX, targetY, nPly, checkData);
+            checkCannonMove(boardPosition, startX, startY, targetX, targetY, checkData, positions);
             if (checkData.isContinue) {
                 targetY++;
             } else {
@@ -30,7 +34,7 @@ public abstract class AbstractCannonMoveGenerator extends AbstractChessMoveGener
         targetX = startX;
         targetY = startY - 1;
         while (targetY >= 0) {
-            checkCannonMove(boardPosition, startX, startY, targetX, targetY, nPly, checkData);
+            checkCannonMove(boardPosition, startX, startY, targetX, targetY, checkData, positions);
             if (checkData.isContinue) {
                 targetY--;
             } else {
@@ -43,7 +47,7 @@ public abstract class AbstractCannonMoveGenerator extends AbstractChessMoveGener
         targetY = startY;
         targetX = startX + 1;
         while (targetX < 10) {
-            checkCannonMove(boardPosition, startX, startY, targetX, targetY, nPly, checkData);
+            checkCannonMove(boardPosition, startX, startY, targetX, targetY, checkData, positions);
             if (checkData.isContinue) {
                 targetX++;
             } else {
@@ -56,13 +60,15 @@ public abstract class AbstractCannonMoveGenerator extends AbstractChessMoveGener
         targetY = startY;
         targetX = startX - 1;
         while (targetX >= 0) {
-            checkCannonMove(boardPosition, startX, startY, targetX, targetY, nPly, checkData);
+            checkCannonMove(boardPosition, startX, startY, targetX, targetY, checkData, positions);
             if (checkData.isContinue) {
                 targetX--;
             } else {
                 break;
             }
         }
+
+        return positions;
     }
 
     /**
@@ -73,16 +79,16 @@ public abstract class AbstractCannonMoveGenerator extends AbstractChessMoveGener
      * @param startY        移动起始点Y坐标
      * @param targetX       移动目标点X坐标
      * @param targetY       移动目标点Y坐标
-     * @param nPly          搜索层数
      * @param checkData     检测所需数据
+     * @param result        走法集合
      */
-    private void checkCannonMove(PointState[][] boardPosition, int startX, int startY, int targetX, int targetY, int nPly, CheckData checkData) {
+    private void checkCannonMove(PointState[][] boardPosition, int startX, int startY, int targetX, int targetY, CheckData checkData, List<Position> result) {
         PointState startState = boardPosition[startX][startY];
         PointState targetState = boardPosition[targetX][targetY];
         if (targetState == PointState.NO_CHESS) {
             if (!checkData.hasChess) {
                 // 目标点没有棋子，且起始点和目标点之间没有棋子隔着，为可走位置
-                chessMoveManager.addMove(startX, startY, targetX, targetY, nPly);
+                result.add(Position.valueOf(targetX, targetY));
             }
         } else {
             if (!checkData.hasChess) {
@@ -91,7 +97,7 @@ public abstract class AbstractCannonMoveGenerator extends AbstractChessMoveGener
             } else {
                 if (!targetState.isSameCamp(startState)) {
                     // 目标点为敌方棋子，且起始点和目标点之间隔着一个棋子，为可走位置
-                    chessMoveManager.addMove(startX, startY, targetX, targetY, nPly);
+                    result.add(Position.valueOf(targetX, targetY));
                     checkData.isContinue = false;
                 }
             }
