@@ -1,6 +1,7 @@
 package chessai.controller.searchengine.impl;
 
 import chessai.controller.ChessMoveManager;
+import chessai.controller.evaluation.IBoardEvaluator;
 import chessai.controller.searchengine.AbstractSearchEngine;
 import chessai.model.ChessMove;
 import chessai.model.PointState;
@@ -10,6 +11,10 @@ import chessai.util.ChessBoardUtils;
  * 负极大值搜索引擎
  */
 public class NegamaxSearchEngine extends AbstractSearchEngine {
+
+    public NegamaxSearchEngine(IBoardEvaluator boardEvaluator) {
+        this.boardEvaluator = boardEvaluator;
+    }
 
     @Override
     public ChessMove searchBestMove(PointState[][] boardPosition) {

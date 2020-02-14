@@ -28,7 +28,7 @@ public final class ChessBoardUtils {
     /**
      * 每次预测步数
      */
-    public static int SEARCH_DEPTH = 4;
+    public static int SEARCH_DEPTH = 1;
 
     /**
      * 红仕可移动位置集合
@@ -265,7 +265,7 @@ public final class ChessBoardUtils {
      * @return true-红方存活；false-红方失败
      */
     public static boolean isRedLive(PointState[][] boardPosition) {
-        for (int x = 7; x < 9; x++) {
+        for (int x = 7; x < 10; x++) {
             for (int y = 3; y < 6; y++) {
                 if (boardPosition[x][y] == PointState.RED_KING) {
                     return true;

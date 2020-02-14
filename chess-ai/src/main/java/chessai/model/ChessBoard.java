@@ -49,8 +49,13 @@ public class ChessBoard {
     @PostConstruct
     public void init() {
         self = this;
+    }
 
-        PointState[][] curChessBoard = new PointState[CHESS_BOARD_LENGTH][CHESS_BOARD_HEIGHT];
+    /**
+     * 初始化棋盘
+     */
+    public void initChessBoard() {
+        PointState[][] curChessBoard = new PointState[CHESS_BOARD_HEIGHT][CHESS_BOARD_LENGTH];
         for (int i = 0; i < CHESS_BOARD_HEIGHT; i++) {
             for (int j = 0; j < CHESS_BOARD_LENGTH; j++) {
                 curChessBoard[i][j] = PointState.getPointState(INIT_CHESS_BOARD[i][j]);
@@ -94,6 +99,27 @@ public class ChessBoard {
             }
         }
         return result;
+    }
+
+    /**
+     * 在棋盘上走一步棋
+     *
+     * @param chessMove 棋子走法
+     */
+    public void makeMove(ChessMove chessMove) {
+        // 把棋子移动到目标位置
+        curChessBoard[chessMove.getTargetX()][chessMove.getTargetY()] = curChessBoard[chessMove.getStartX()][chessMove.getStartY()];
+        // 将原位置清空
+        curChessBoard[chessMove.getStartX()][chessMove.getStartY()] = PointState.NO_CHESS;
+    }
+
+    /**
+     * 获取当前的棋盘状态
+     *
+     * @return 当前的棋盘状态
+     */
+    public PointState[][] getCurChessBoard() {
+        return curChessBoard;
     }
 
 }

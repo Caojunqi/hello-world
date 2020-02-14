@@ -1,6 +1,7 @@
 package chessai.controller.evaluation.jia;
 
 import chessai.controller.ChessManager;
+import chessai.controller.evaluation.IBoardEvaluator;
 import chessai.controller.evaluation.jia.chessevaluator.AbstractChessEvaluator;
 import chessai.controller.movegenerator.AbstractChessMoveGenerator;
 import chessai.model.CampType;
@@ -11,6 +12,7 @@ import chessai.util.ChessBoardUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,9 +20,20 @@ import java.util.Map;
  * 棋局评估器-甲号
  */
 @Component
-public class JiaBoardEvaluator {
+public class JiaBoardEvaluator implements IBoardEvaluator {
     @Autowired
     private ChessManager chessManager;
+
+    private static IBoardEvaluator instance;
+
+    public static IBoardEvaluator getInstance() {
+        return instance;
+    }
+
+    @PostConstruct
+    public void init() {
+        instance = this;
+    }
 
     // 每种棋子的基本价值
     // 兵-100 士-250 象-250 车-500 马-350 炮-350 将-10000
@@ -122,21 +135,15 @@ public class JiaBoardEvaluator {
         }
     }
 
-    /**
-     * 评估指定棋局
-     *
-     * @param boardPosition 待评估的棋局局势
-     * @param campType      接下来要走棋的阵营
-     * @return 棋局的估值
-     */
+    @Override
     public int evaluate(PointState[][] boardPosition, CampType campType) {
-        int[][] chessValues = new int[ChessBoard.CHESS_BOARD_LENGTH][ChessBoard.CHESS_BOARD_HEIGHT];
+        int[][] chessValues = new int[ChessBoard.CHESS_BOARD_HEIGHT][ChessBoard.CHESS_BOARD_LENGTH];
         // 棋盘上各个点的受威胁度
-        int[][] posThreat = new int[ChessBoard.CHESS_BOARD_LENGTH][ChessBoard.CHESS_BOARD_HEIGHT];
+        int[][] posThreat = new int[ChessBoard.CHESS_BOARD_HEIGHT][ChessBoard.CHESS_BOARD_LENGTH];
         // 棋盘上各个点的受保护度
-        int[][] posGuard = new int[ChessBoard.CHESS_BOARD_LENGTH][ChessBoard.CHESS_BOARD_HEIGHT];
+        int[][] posGuard = new int[ChessBoard.CHESS_BOARD_HEIGHT][ChessBoard.CHESS_BOARD_LENGTH];
         // 棋盘上各个点的灵活性
-        int[][] posFlexibility = new int[ChessBoard.CHESS_BOARD_LENGTH][ChessBoard.CHESS_BOARD_HEIGHT];
+        int[][] posFlexibility = new int[ChessBoard.CHESS_BOARD_HEIGHT][ChessBoard.CHESS_BOARD_LENGTH];
         int endGameScore = walkChessBoard(boardPosition, campType, posThreat, posGuard, posFlexibility);
         if (endGameScore > 0) {
             // 如果终局了，直接返回终局分数

@@ -1,9 +1,9 @@
 package chessai.controller.searchengine;
 
+import chessai.controller.evaluation.IBoardEvaluator;
 import chessai.model.ChessMove;
 import chessai.model.PointState;
 import chessai.util.ChessBoardUtils;
-import chessai.util.RandomUtils;
 
 /**
  * 搜索引擎抽象类
@@ -14,6 +14,10 @@ public abstract class AbstractSearchEngine {
      * 当前局面的最优走法
      */
     protected ChessMove bestMove;
+    /**
+     * 棋局评估器
+     */
+    protected IBoardEvaluator boardEvaluator;
 
     /**
      * 针对指定棋局局势搜索一个最佳棋子移动方案
@@ -91,7 +95,7 @@ public abstract class AbstractSearchEngine {
             return -ratio * ChessBoardUtils.MAX_EVALUATE_VALUE;
         }
 
-        // TODO 编写具体的估值函数
-        return ratio * RandomUtils.betweenInt(1, 1998, true);
+        return boardEvaluator.evaluate(boardPosition, ChessBoardUtils.AI_CAMP);
     }
+
 }

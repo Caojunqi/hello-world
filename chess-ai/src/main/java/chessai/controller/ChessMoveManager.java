@@ -74,7 +74,7 @@ public class ChessMoveManager {
      * @return true-棋子移动合法；false-棋子移动不合法。
      */
     public boolean isValidMove(PointState[][] boardPosition, int startX, int startY, int targetX, int targetY) {
-        if (ChessBoardUtils.inBoard(targetX, targetY)) {
+        if (!ChessBoardUtils.inBoard(targetX, targetY)) {
             // 目标点超出棋盘范围
             return false;
         }

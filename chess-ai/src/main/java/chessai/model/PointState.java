@@ -143,8 +143,9 @@ public enum PointState {
      */
     public static PointState getPointState(int code) {
         for (PointState state : values()) {
-            state.code = code;
-            return state;
+            if (state.code == code) {
+                return state;
+            }
         }
         throw new IllegalArgumentException("不存在指定编号对应的棋盘点状态！编号：" + code);
     }
