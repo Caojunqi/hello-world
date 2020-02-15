@@ -2,7 +2,6 @@ package chessai.controller.evaluation.jia;
 
 import chessai.controller.ChessManager;
 import chessai.controller.evaluation.IBoardEvaluator;
-import chessai.controller.evaluation.jia.chessevaluator.AbstractChessEvaluator;
 import chessai.controller.movegenerator.AbstractChessMoveGenerator;
 import chessai.model.CampType;
 import chessai.model.ChessBoard;
@@ -37,25 +36,63 @@ public class JiaBoardEvaluator implements IBoardEvaluator {
 
     // 每种棋子的基本价值
     // 兵-100 士-250 象-250 车-500 马-350 炮-350 将-10000
-    public int PAWN_BASE_VALUE = 100;
-    public int GUARD_BASE_VALUE = 250;
-    public int MINISTER_BASE_VALUE = 250;
-    public int ROOK_BASE_VALUE = 500;
-    public int KNIGHT_BASE_VALUE = 350;
-    public int CANNON_BASE_VALUE = 350;
-    public int KING_BASE_VALUE = 10000;
-    public int NO_CHESS_BASE_VALUE = 0;
+    private int PAWN_BASE_VALUE = 100;
+    private int GUARD_BASE_VALUE = 250;
+    private int MINISTER_BASE_VALUE = 250;
+    private int ROOK_BASE_VALUE = 500;
+    private int KNIGHT_BASE_VALUE = 350;
+    private int CANNON_BASE_VALUE = 350;
+    private int KING_BASE_VALUE = 10000;
+    private int NO_CHESS_BASE_VALUE = 0;
+    private Map<PointState, Integer> chessBaseValues = new HashMap<>(PointState.values().length);
+
+    {
+        chessBaseValues.put(PointState.BLACK_PAWN, PAWN_BASE_VALUE);
+        chessBaseValues.put(PointState.RED_PAWN, PAWN_BASE_VALUE);
+        chessBaseValues.put(PointState.BLACK_GUARD, GUARD_BASE_VALUE);
+        chessBaseValues.put(PointState.RED_GUARD, GUARD_BASE_VALUE);
+        chessBaseValues.put(PointState.BLACK_MINISTER, MINISTER_BASE_VALUE);
+        chessBaseValues.put(PointState.RED_MINISTER, MINISTER_BASE_VALUE);
+        chessBaseValues.put(PointState.BLACK_ROOK, ROOK_BASE_VALUE);
+        chessBaseValues.put(PointState.RED_ROOK, ROOK_BASE_VALUE);
+        chessBaseValues.put(PointState.BLACK_KNIGHT, KNIGHT_BASE_VALUE);
+        chessBaseValues.put(PointState.RED_KNIGHT, KNIGHT_BASE_VALUE);
+        chessBaseValues.put(PointState.BLACK_CANNON, CANNON_BASE_VALUE);
+        chessBaseValues.put(PointState.RED_CANNON, CANNON_BASE_VALUE);
+        chessBaseValues.put(PointState.BLACK_KING, KING_BASE_VALUE);
+        chessBaseValues.put(PointState.RED_KING, KING_BASE_VALUE);
+        chessBaseValues.put(PointState.NO_CHESS, NO_CHESS_BASE_VALUE);
+    }
 
     // 每种棋子的灵活性，也就是每多一个可走位置应加上的分值
     // 兵-15 士-1 象-1 车-6 马-12 炮-6 将-0
-    public int PAWN_FLEXIBILITY = 15;
-    public int GUARD_FLEXIBILITY = 1;
-    public int MINISTER_FLEXIBILITY = 1;
-    public int ROOK_FLEXIBILITY = 6;
-    public int KNIGHT_FLEXIBILITY = 12;
-    public int CANNON_FLEXIBILITY = 6;
-    public int KING_FLEXIBILITY = 0;
-    public int NO_CHESS_FLEXIBILITY = 0;
+    private int PAWN_FLEXIBILITY = 15;
+    private int GUARD_FLEXIBILITY = 1;
+    private int MINISTER_FLEXIBILITY = 1;
+    private int ROOK_FLEXIBILITY = 6;
+    private int KNIGHT_FLEXIBILITY = 12;
+    private int CANNON_FLEXIBILITY = 6;
+    private int KING_FLEXIBILITY = 0;
+    private int NO_CHESS_FLEXIBILITY = 0;
+    private Map<PointState, Integer> chessFlexValues = new HashMap<>(PointState.values().length);
+
+    {
+        chessFlexValues.put(PointState.BLACK_PAWN, PAWN_FLEXIBILITY);
+        chessFlexValues.put(PointState.RED_PAWN, PAWN_FLEXIBILITY);
+        chessFlexValues.put(PointState.BLACK_GUARD, GUARD_FLEXIBILITY);
+        chessFlexValues.put(PointState.RED_GUARD, GUARD_FLEXIBILITY);
+        chessFlexValues.put(PointState.BLACK_MINISTER, MINISTER_FLEXIBILITY);
+        chessFlexValues.put(PointState.RED_MINISTER, MINISTER_FLEXIBILITY);
+        chessFlexValues.put(PointState.BLACK_ROOK, ROOK_FLEXIBILITY);
+        chessFlexValues.put(PointState.RED_ROOK, ROOK_FLEXIBILITY);
+        chessFlexValues.put(PointState.BLACK_KNIGHT, KNIGHT_FLEXIBILITY);
+        chessFlexValues.put(PointState.RED_KNIGHT, KNIGHT_FLEXIBILITY);
+        chessFlexValues.put(PointState.BLACK_CANNON, CANNON_FLEXIBILITY);
+        chessFlexValues.put(PointState.RED_CANNON, CANNON_FLEXIBILITY);
+        chessFlexValues.put(PointState.BLACK_KING, KING_FLEXIBILITY);
+        chessFlexValues.put(PointState.RED_KING, KING_FLEXIBILITY);
+        chessFlexValues.put(PointState.NO_CHESS, NO_CHESS_FLEXIBILITY);
+    }
 
     // 兵在不同位置的附加值，基本上是过河之后越靠近敌方老将越高
     // 红卒的附加值矩阵
@@ -84,37 +121,6 @@ public class JiaBoardEvaluator implements IBoardEvaluator {
             {90, 90, 110, 120, 120, 120, 110, 90, 90},
             {0, 0, 0, 0, 0, 0, 0, 0, 0},
     };
-
-    /**
-     * 棋子评估器集合 <棋点类型, 棋子评估器>
-     */
-    private Map<PointState, AbstractChessEvaluator> chessEvaluators = new HashMap<>(PointState.values().length);
-
-    /**
-     * 注册棋子评估器
-     *
-     * @param chessEvaluator 待注册的棋子评估器
-     */
-    public void registerChessEvaluator(AbstractChessEvaluator chessEvaluator) {
-        if (chessEvaluators.containsKey(chessEvaluator.getPointState())) {
-            throw new RuntimeException("ChessEvaluator状态重复！！重复状态：" + chessEvaluator.getPointState());
-        }
-        chessEvaluators.put(chessEvaluator.getPointState(), chessEvaluator);
-    }
-
-    /**
-     * 获取指定棋点状态对应的棋子评估器
-     *
-     * @param pointState 棋点状态
-     * @return 棋子评估器
-     */
-    public AbstractChessEvaluator getChessEvaluator(PointState pointState) {
-        AbstractChessEvaluator chessEvaluator = chessEvaluators.get(pointState);
-        if (chessEvaluator == null) {
-            throw new IllegalStateException("不存在指定棋点状态对应的棋子评估器！！棋点状态：" + pointState);
-        }
-        return chessEvaluator;
-    }
 
     /**
      * 获取指定位置的兵的附加值
@@ -177,7 +183,6 @@ public class JiaBoardEvaluator implements IBoardEvaluator {
                 if (pointState == PointState.NO_CHESS) {
                     continue;
                 }
-                AbstractChessEvaluator chessEvaluator = getChessEvaluator(pointState);
                 AbstractChessMoveGenerator chessMoveGenerator = chessManager.getChessMoveGenerator(pointState);
                 for (Position position : chessMoveGenerator.generateMove(boardPosition, i, j)) {
                     PointState targetState = boardPosition[position.getX()][position.getY()];
@@ -201,8 +206,7 @@ public class JiaBoardEvaluator implements IBoardEvaluator {
                         return ChessBoardUtils.MAX_EVALUATE_VALUE;
                     } else {
                         // 如果目标点不是老将，根据威胁的棋子加上威胁分值
-                        AbstractChessEvaluator targetChessEvaluator = getChessEvaluator(targetState);
-                        posThreat[position.getX()][position.getY()] += (30 + (targetChessEvaluator.getChessBaseValue() - chessEvaluator.getChessBaseValue()) / 10) / 10;
+                        posThreat[position.getX()][position.getY()] += (30 + (chessBaseValues.get(targetState) - chessBaseValues.get(pointState)) / 10) / 10;
                     }
                 }
             }
@@ -224,10 +228,9 @@ public class JiaBoardEvaluator implements IBoardEvaluator {
                 if (chessState == PointState.NO_CHESS) {
                     continue;
                 }
-                AbstractChessEvaluator chessEvaluator = getChessEvaluator(chessState);
                 // 如果棋子存在，则其价值不为0
                 chessValues[i][j]++;
-                chessValues[i][j] += chessEvaluator.getChessFlexValue() * posFlexibility[i][j];
+                chessValues[i][j] += chessFlexValues.get(chessState) * posFlexibility[i][j];
                 // 加上兵的位置附加值
                 chessValues[i][j] += getPawnAddition(boardPosition, i, j);
             }
@@ -252,11 +255,10 @@ public class JiaBoardEvaluator implements IBoardEvaluator {
                 if (chessState == PointState.NO_CHESS) {
                     continue;
                 }
-                AbstractChessEvaluator chessEvaluator = getChessEvaluator(chessState);
                 // 棋子基本价值的1/16作为威胁/保护增量
-                nHalfValue = chessEvaluator.getChessBaseValue() / 16;
+                nHalfValue = chessBaseValues.get(chessState) / 16;
                 // 把每个棋子的基本价值计入其总价值
-                chessValues[i][j] += chessEvaluator.getChessBaseValue();
+                chessValues[i][j] += chessBaseValues.get(chessState);
                 if (posThreat[i][j] <= 0) {
                     // 当前棋点没有受到威胁
                     if (posGuard[i][j] > 0) {
@@ -317,7 +319,6 @@ public class JiaBoardEvaluator implements IBoardEvaluator {
                 if (chessState == PointState.NO_CHESS) {
                     continue;
                 }
-                AbstractChessEvaluator chessEvaluator = getChessEvaluator(chessState);
                 if (chessState.isRed()) {
                     redScore += chessValues[i][j];
                 } else {
