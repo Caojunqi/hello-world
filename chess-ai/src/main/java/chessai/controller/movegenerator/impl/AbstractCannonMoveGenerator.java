@@ -99,6 +99,9 @@ public abstract class AbstractCannonMoveGenerator extends AbstractChessMoveGener
                     // 目标点为敌方棋子，且起始点和目标点之间隔着一个棋子，为可走位置
                     result.add(Position.valueOf(targetX, targetY));
                     checkData.isContinue = false;
+                } else {
+                    // 目标点是同阵营的棋子，后续不用再判断了
+                    checkData.isContinue = false;
                 }
             }
         }

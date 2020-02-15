@@ -7,6 +7,7 @@ import chessai.controller.searchengine.impl.AlphaBetaSearchEngine;
 import chessai.model.ChessBoard;
 import chessai.model.ChessMove;
 import chessai.model.PointState;
+import chessai.util.ChessBoardUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Scanner;
@@ -39,6 +40,11 @@ public class Start {
                 System.out.println("玩家移动不合法！！");
                 continue;
             }
+            PointState playerState = boardPosition[playerMove.getStartX()][playerMove.getStartY()];
+            if (playerState.isSameCamp(ChessBoardUtils.AI_CAMP)) {
+                System.out.println("玩家走了AI的棋！！");
+                continue;
+            }
             boolean isValidMove = ChessMoveManager.getInstance().isValidMove(boardPosition, playerMove.getStartX(), playerMove.getStartY(), playerMove.getTargetX(), playerMove.getTargetY());
             if (!isValidMove) {
                 System.out.println("玩家移动不合法！！");
@@ -48,7 +54,9 @@ public class Start {
             System.out.println("玩家走一步：[" + playerMove.getStartX() + "," + playerMove.getStartY() + "] --> [" + playerMove.getTargetX() + "," + playerMove.getTargetY() + "]");
 
             // AI走一步
+            ChessMoveManager.getInstance().clearPossibleMoves();
             ChessMove aiMove = searchEngine.searchBestMove(boardPosition);
+            ChessBoard.getInstance().makeMove(aiMove);
             System.out.println("AI走一步：[" + aiMove.getStartX() + "," + aiMove.getStartY() + "] --> [" + aiMove.getTargetX() + "," + aiMove.getTargetY() + "]");
         }
     }

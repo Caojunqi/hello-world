@@ -41,6 +41,6 @@ public abstract class AbstractPawnMoveChecker extends AbstractChessMoveChecker {
             // 兵只能走一步直线
             return false;
         }
-        return false;
+        return true;
     }
 }

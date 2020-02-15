@@ -85,6 +85,10 @@ public class ChessMoveManager {
         }
 
         PointState startState = boardPosition[startX][startY];
+        if (startState == PointState.NO_CHESS) {
+            // 不能移动无子的棋点
+            return false;
+        }
         PointState targetState = boardPosition[targetX][targetY];
         if (startState.isSameCamp(targetState)) {
             // 吃自己的棋，非法
