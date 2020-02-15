@@ -31,6 +31,11 @@ public enum CampType {
         public PointState getSelfKing() {
             throw new IllegalStateException("不应该对无子棋点判断己方老将！！");
         }
+
+        @Override
+        public CampType getEnemyCamp() {
+            throw new IllegalStateException("不应该对无子棋点判断敌方阵营！！");
+        }
     },
     /**
      * 红方
@@ -57,6 +62,11 @@ public enum CampType {
         public PointState getSelfKing() {
             return PointState.RED_KING;
         }
+
+        @Override
+        public CampType getEnemyCamp() {
+            return CampType.BLACK;
+        }
     },
     /**
      * 黑方
@@ -82,6 +92,11 @@ public enum CampType {
         @Override
         public PointState getSelfKing() {
             return PointState.BLACK_KING;
+        }
+
+        @Override
+        public CampType getEnemyCamp() {
+            return CampType.RED;
         }
     },
     ;
@@ -115,4 +130,11 @@ public enum CampType {
      * @return 己方老将的状态类型
      */
     public abstract PointState getSelfKing();
+
+    /**
+     * 获取敌方阵营类型
+     *
+     * @return 敌方阵营类型
+     */
+    public abstract CampType getEnemyCamp();
 }

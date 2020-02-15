@@ -1,6 +1,7 @@
 package chessai.controller.searchengine;
 
 import chessai.controller.evaluation.IBoardEvaluator;
+import chessai.model.CampType;
 import chessai.model.ChessMove;
 import chessai.model.PointState;
 import chessai.util.ChessBoardUtils;
@@ -86,7 +87,11 @@ public abstract class AbstractSearchEngine {
      * @return 估值结果
      */
     protected int evaluate(PointState[][] boardPosition, int curDepth, int maxDepth) {
+        // (maxDepth+curDepth)的值如果是奇数，表明当前局面接下来由敌人走棋，我们需要从当前层的所有局面中挑选最大值
+        // 如果是偶数，表明当前局面接下来由AI走棋，我们需要从当前层的所有局面中挑选最小值。
+        // 但是无论是采用负极大值搜索还是Alpha-Beta剪枝，最后一层的估值结果都会被先取一个负号，然后再进行大小比较，因此应该再加上一个负号来进行抵消。
         int ratio = (maxDepth + curDepth) % 2 == 0 ? -1 : 1;
+        CampType nextCamp = (maxDepth + curDepth) % 2 == 0 ? ChessBoardUtils.AI_CAMP : ChessBoardUtils.AI_CAMP.getEnemyCamp();
         if (ChessBoardUtils.AI_CAMP.isWin(boardPosition)) {
             return ratio * ChessBoardUtils.MAX_EVALUATE_VALUE;
         }
@@ -95,7 +100,7 @@ public abstract class AbstractSearchEngine {
             return -ratio * ChessBoardUtils.MAX_EVALUATE_VALUE;
         }
 
-        return boardEvaluator.evaluate(boardPosition, ChessBoardUtils.AI_CAMP);
+        return boardEvaluator.evaluate(boardPosition, nextCamp);
     }
 
 }
