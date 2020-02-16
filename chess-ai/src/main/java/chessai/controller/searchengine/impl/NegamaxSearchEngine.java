@@ -18,6 +18,7 @@ public class NegamaxSearchEngine extends AbstractSearchEngine {
 
     @Override
     public ChessMove searchBestMove(PointState[][] boardPosition) {
+        bestMove = null;
         negamax(boardPosition, ChessBoardUtils.SEARCH_DEPTH, ChessBoardUtils.SEARCH_DEPTH);
         return bestMove;
     }
@@ -36,7 +37,7 @@ public class NegamaxSearchEngine extends AbstractSearchEngine {
             return evaluate(boardPosition, curDepth, maxDepth);
         }
         // 生成合理走法
-        ChessMoveManager.getInstance().createPossibleMoves(boardPosition, curDepth);
+        ChessMoveManager.getInstance().createPossibleMoves(boardPosition, curDepth, maxDepth);
         // 遍历所有合理走法
         for (ChessMove move : ChessMoveManager.getInstance().getPossibleMoves(curDepth)) {
             // 根据走法产生新局面

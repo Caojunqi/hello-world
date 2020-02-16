@@ -18,6 +18,7 @@ public class AlphaBetaSearchEngine extends AbstractSearchEngine {
 
     @Override
     public ChessMove searchBestMove(PointState[][] boardPosition) {
+        bestMove = null;
         alphaBeta(boardPosition, ChessBoardUtils.SEARCH_DEPTH, ChessBoardUtils.SEARCH_DEPTH, -ChessBoardUtils.MAX_EVALUATE_VALUE, ChessBoardUtils.MAX_EVALUATE_VALUE);
         return bestMove;
     }
@@ -27,7 +28,7 @@ public class AlphaBetaSearchEngine extends AbstractSearchEngine {
             return evaluate(boardPosition, curDepth, maxDepth);
         }
         // 生成合理走法
-        ChessMoveManager.getInstance().createPossibleMoves(boardPosition, curDepth);
+        ChessMoveManager.getInstance().createPossibleMoves(boardPosition, curDepth, maxDepth);
         // 遍历所有合理走法
         for (ChessMove move : ChessMoveManager.getInstance().getPossibleMoves(curDepth)) {
             // 根据走法产生新局面

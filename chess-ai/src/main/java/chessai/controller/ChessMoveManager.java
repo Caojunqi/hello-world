@@ -2,10 +2,7 @@ package chessai.controller;
 
 import chessai.controller.movechecker.AbstractChessMoveChecker;
 import chessai.controller.movegenerator.AbstractChessMoveGenerator;
-import chessai.model.ChessBoard;
-import chessai.model.ChessMove;
-import chessai.model.PointState;
-import chessai.model.Position;
+import chessai.model.*;
 import chessai.util.ChessBoardUtils;
 import org.springframework.stereotype.Component;
 
@@ -41,23 +38,25 @@ public class ChessMoveManager {
      * 用以产生当前局面中所有可能的走法
      *
      * @param boardPosition 当前局势
-     * @param nPly          当前搜索的层数，同一棋子在每层的走法存在不同的位置
+     * @param curDepth      当前搜索的层数，同一棋子在每层的走法存在不同的位置
+     * @param maxDepth      本次搜索的最大搜索层数
      */
-    public void createPossibleMoves(PointState[][] boardPosition, int nPly) {
+    public void createPossibleMoves(PointState[][] boardPosition, int curDepth, int maxDepth) {
         for (int i = 0; i < ChessBoard.CHESS_BOARD_HEIGHT; i++) {
             for (int j = 0; j < ChessBoard.CHESS_BOARD_LENGTH; j++) {
                 PointState pointState = boardPosition[i][j];
                 if (pointState == PointState.NO_CHESS) {
                     continue;
                 }
-                if (!pointState.isSameCamp(ChessBoardUtils.AI_CAMP)) {
+                CampType nextCamp = (maxDepth + curDepth) % 2 == 0 ? ChessBoardUtils.AI_CAMP : ChessBoardUtils.AI_CAMP.getEnemyCamp();
+                if (!pointState.isSameCamp(nextCamp)) {
                     continue;
                 }
 
                 AbstractChessMoveGenerator moveGenerator = ChessManager.getInstance().getChessMoveGenerator(pointState);
                 List<Position> positions = moveGenerator.generateMove(boardPosition, i, j);
                 for (Position position : positions) {
-                    addMove(i, j, position.getX(), position.getY(), nPly);
+                    addMove(i, j, position.getX(), position.getY(), curDepth);
                 }
             }
         }
