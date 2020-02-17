@@ -30,7 +30,7 @@ public abstract class AbstractPawnMoveGenerator extends AbstractChessMoveGenerat
     protected abstract int moveForward(int startX);
 
     @Override
-    public List<Position> generateMove(PointState[][] boardPosition, int startX, int startY) {
+    public List<Position> generateValidMove(PointState[][] boardPosition, int startX, int startY) {
         List<Position> positions = new ArrayList<>();
         int targetX, targetY;
         // 小兵前进
@@ -55,4 +55,29 @@ public abstract class AbstractPawnMoveGenerator extends AbstractChessMoveGenerat
         return positions;
     }
 
+    @Override
+    public List<Position> generateRelateMove(PointState[][] boardPosition, int startX, int startY) {
+        List<Position> positions = new ArrayList<>();
+        int targetX, targetY;
+        // 小兵前进
+        targetX = moveForward(startX);
+        targetY = startY;
+        if (chessMoveManager.isRelateMove(boardPosition, startX, startY, targetX, targetY)) {
+            positions.add(Position.valueOf(targetX, targetY));
+        }
+        // 过河后小兵可以左右移动
+        if (isCrossRiver(startX, startY)) {
+            targetX = startX;
+            targetY = startY - 1;
+            if (chessMoveManager.isRelateMove(boardPosition, startX, startY, targetX, targetY)) {
+                positions.add(Position.valueOf(targetX, targetY));
+            }
+
+            targetY = startY + 1;
+            if (chessMoveManager.isRelateMove(boardPosition, startX, startY, targetX, targetY)) {
+                positions.add(Position.valueOf(targetX, targetY));
+            }
+        }
+        return positions;
+    }
 }

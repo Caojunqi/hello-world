@@ -183,10 +183,10 @@ public class JiaBoardEvaluator implements IBoardEvaluator {
                     continue;
                 }
                 AbstractChessMoveGenerator chessMoveGenerator = chessManager.getChessMoveGenerator(pointState);
-                for (Position position : chessMoveGenerator.generateMove(boardPosition, i, j)) {
+                for (Position position : chessMoveGenerator.generateRelateMove(boardPosition, i, j)) {
                     PointState targetState = boardPosition[position.getX()][position.getY()];
                     if (targetState == PointState.NO_CHESS) {
-                        // 如果目标点事空白的，灵活性增加
+                        // 如果目标点是空白的，灵活性增加
                         posFlexibility[i][j]++;
                         continue;
                     }

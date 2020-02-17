@@ -19,7 +19,12 @@ public class NoChessMoveGenerator extends AbstractChessMoveGenerator {
     }
 
     @Override
-    public List<Position> generateMove(PointState[][] boardPosition, int startX, int startY) {
+    public List<Position> generateValidMove(PointState[][] boardPosition, int startX, int startY) {
+        throw new IllegalStateException("无棋的点不应该执行走法生成逻辑！！");
+    }
+
+    @Override
+    public List<Position> generateRelateMove(PointState[][] boardPosition, int startX, int startY) {
         throw new IllegalStateException("无棋的点不应该执行走法生成逻辑！！");
     }
 }

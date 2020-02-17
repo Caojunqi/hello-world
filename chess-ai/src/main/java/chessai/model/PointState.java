@@ -7,63 +7,63 @@ public enum PointState {
     /**
      * 没有棋子
      */
-    NO_CHESS(0, 88, CampType.NO),
+    NO_CHESS(0, 88, CampType.NO, "[]"),
     /**
      * 黑帅
      */
-    BLACK_KING(1, 1, CampType.BLACK),
+    BLACK_KING(1, 1, CampType.BLACK, "黑帅"),
     /**
      * 黑车
      */
-    BLACK_ROOK(2, 2, CampType.BLACK),
+    BLACK_ROOK(2, 2, CampType.BLACK, "黑车"),
     /**
      * 黑马
      */
-    BLACK_KNIGHT(3, 2, CampType.BLACK),
+    BLACK_KNIGHT(3, 2, CampType.BLACK, "黑马"),
     /**
      * 黑炮
      */
-    BLACK_CANNON(4, 2, CampType.BLACK),
+    BLACK_CANNON(4, 2, CampType.BLACK, "黑炮"),
     /**
      * 黑士
      */
-    BLACK_GUARD(5, 2, CampType.BLACK),
+    BLACK_GUARD(5, 2, CampType.BLACK, "黑士"),
     /**
      * 黑象
      */
-    BLACK_MINISTER(6, 2, CampType.BLACK),
+    BLACK_MINISTER(6, 2, CampType.BLACK, "黑象"),
     /**
      * 黑兵
      */
-    BLACK_PAWN(7, 5, CampType.BLACK),
+    BLACK_PAWN(7, 5, CampType.BLACK, "黑兵"),
     /**
      * 红将
      */
-    RED_KING(8, 1, CampType.RED),
+    RED_KING(8, 1, CampType.RED, "红将"),
     /**
      * 红车
      */
-    RED_ROOK(9, 2, CampType.RED),
+    RED_ROOK(9, 2, CampType.RED, "红车"),
     /**
      * 红马
      */
-    RED_KNIGHT(10, 2, CampType.RED),
+    RED_KNIGHT(10, 2, CampType.RED, "红马"),
     /**
      * 红炮
      */
-    RED_CANNON(11, 2, CampType.RED),
+    RED_CANNON(11, 2, CampType.RED, "红炮"),
     /**
      * 红仕
      */
-    RED_GUARD(12, 2, CampType.RED),
+    RED_GUARD(12, 2, CampType.RED, "红仕"),
     /**
      * 红相
      */
-    RED_MINISTER(13, 2, CampType.RED),
+    RED_MINISTER(13, 2, CampType.RED, "红相"),
     /**
      * 红卒
      */
-    RED_PAWN(14, 5, CampType.RED),
+    RED_PAWN(14, 5, CampType.RED, "红卒"),
     ;
 
     /**
@@ -78,11 +78,16 @@ public enum PointState {
      * 该棋点所属阵营
      */
     private CampType campType;
+    /**
+     * 棋点名称
+     */
+    private String name;
 
-    PointState(int code, int maxNum, CampType campType) {
+    PointState(int code, int maxNum, CampType campType, String name) {
         this.code = code;
         this.maxNum = maxNum;
         this.campType = campType;
+        this.name = name;
     }
 
     public int getCode() {
@@ -97,22 +102,8 @@ public enum PointState {
         return campType;
     }
 
-    /**
-     * 判断棋盘点是否被黑方控制
-     *
-     * @return true-被黑方控制；false-不被黑方控制。
-     */
-    public boolean isBlack() {
-        return this.campType == CampType.BLACK;
-    }
-
-    /**
-     * 判断棋盘点是否被红方控制
-     *
-     * @return true-被红方控制；false-不被红方控制。
-     */
-    public boolean isRed() {
-        return this.campType == CampType.RED;
+    public String getName() {
+        return name;
     }
 
     /**

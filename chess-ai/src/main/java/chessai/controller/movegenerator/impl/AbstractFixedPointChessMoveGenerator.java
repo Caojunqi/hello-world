@@ -20,10 +20,21 @@ public abstract class AbstractFixedPointChessMoveGenerator extends AbstractChess
     protected abstract List<Position> getFixedPoints();
 
     @Override
-    public List<Position> generateMove(PointState[][] boardPosition, int startX, int startY) {
+    public List<Position> generateValidMove(PointState[][] boardPosition, int startX, int startY) {
         List<Position> positions = new ArrayList<>();
         for (Position position : getFixedPoints()) {
             if (chessMoveManager.isValidMove(boardPosition, startX, startY, position.getX(), position.getY())) {
+                positions.add(Position.valueOf(position.getX(), position.getY()));
+            }
+        }
+        return positions;
+    }
+
+    @Override
+    public List<Position> generateRelateMove(PointState[][] boardPosition, int startX, int startY) {
+        List<Position> positions = new ArrayList<>();
+        for (Position position : getFixedPoints()) {
+            if (chessMoveManager.isRelateMove(boardPosition, startX, startY, position.getX(), position.getY())) {
                 positions.add(Position.valueOf(position.getX(), position.getY()));
             }
         }

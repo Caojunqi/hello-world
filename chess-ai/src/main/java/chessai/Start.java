@@ -30,34 +30,35 @@ public class Start {
         AbstractSearchEngine searchEngine = new AlphaBetaSearchEngine(JiaBoardEvaluator.getInstance());
         PointState[][] boardPosition = ChessBoard.getInstance().getCurChessBoard();
         // 开始下棋
-        System.out.println("开始下棋，玩家先走：");
+        System.err.println("开始下棋，玩家先走：");
         Scanner scanner = new Scanner(System.in);
         int step = 0;
         while (true) {
             String string = scanner.nextLine();
             ChessMove playerMove = convertStr2Move(string);
             if (playerMove == null) {
-                System.out.println("玩家移动不合法！！");
+                System.err.println("玩家移动不合法！！");
                 continue;
             }
             PointState playerState = boardPosition[playerMove.getStartX()][playerMove.getStartY()];
             if (playerState.isSameCamp(ChessBoardUtils.AI_CAMP)) {
-                System.out.println("玩家走了AI的棋！！");
+                System.err.println("玩家走了AI的棋！！");
                 continue;
             }
             boolean isValidMove = ChessMoveManager.getInstance().isValidMove(boardPosition, playerMove.getStartX(), playerMove.getStartY(), playerMove.getTargetX(), playerMove.getTargetY());
             if (!isValidMove) {
-                System.out.println("玩家移动不合法！！");
+                System.err.println("玩家移动不合法！！");
                 continue;
             }
             ChessBoard.getInstance().makeMove(playerMove);
-            System.out.println("玩家走一步：[" + playerMove.getStartX() + "," + playerMove.getStartY() + "] --> [" + playerMove.getTargetX() + "," + playerMove.getTargetY() + "]");
-
+            System.err.println("玩家走一步：[" + playerMove.getStartX() + "," + playerMove.getStartY() + "] --> [" + playerMove.getTargetX() + "," + playerMove.getTargetY() + "]");
+            ChessBoardUtils.printChessBoard(ChessBoard.getInstance().getCurChessBoard());
             // AI走一步
             ChessMoveManager.getInstance().clearPossibleMoves();
             ChessMove aiMove = searchEngine.searchBestMove(boardPosition);
             ChessBoard.getInstance().makeMove(aiMove);
-            System.out.println("AI走一步：[" + aiMove.getStartX() + "," + aiMove.getStartY() + "] --> [" + aiMove.getTargetX() + "," + aiMove.getTargetY() + "]");
+            System.err.println("AI走一步：[" + aiMove.getStartX() + "," + aiMove.getStartY() + "] --> [" + aiMove.getTargetX() + "," + aiMove.getTargetY() + "]");
+            ChessBoardUtils.printChessBoard(ChessBoard.getInstance().getCurChessBoard());
         }
     }
 

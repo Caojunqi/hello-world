@@ -2,6 +2,7 @@ package chessai.util;
 
 import chessai.common.SystemOut;
 import chessai.model.CampType;
+import chessai.model.ChessBoard;
 import chessai.model.PointState;
 import chessai.model.Position;
 
@@ -293,6 +294,31 @@ public final class ChessBoardUtils {
     }
 
     /**
+     * 打印输出棋盘到控制台
+     *
+     * @param boardPosition 棋局局势
+     */
+    public static void printChessBoard(PointState[][] boardPosition) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("================================================\n");
+        for (int i = 0; i < ChessBoard.CHESS_BOARD_HEIGHT; i++) {
+            for (int j = 0; j < ChessBoard.CHESS_BOARD_LENGTH; j++) {
+                PointState chessState = boardPosition[i][j];
+                sb.append(chessState.getName());
+                if (j != ChessBoard.CHESS_BOARD_LENGTH - 1) {
+                    sb.append("--");
+                }
+            }
+            sb.append("\n");
+            if (i != ChessBoard.CHESS_BOARD_HEIGHT - 1) {
+                sb.append("\n");
+            }
+        }
+        sb.append("================================================\n");
+        System.out.println(sb.toString());
+    }
+
+    /**
      * 初始化红仕可移动位置集合
      */
     private static void initRedGuardMovePoints() {
@@ -336,6 +362,7 @@ public final class ChessBoardUtils {
         BLACK_MINISTER_MOVE_POINTS.add(Position.valueOf(4, 2));
         BLACK_MINISTER_MOVE_POINTS.add(Position.valueOf(2, 4));
         BLACK_MINISTER_MOVE_POINTS.add(Position.valueOf(0, 6));
+        BLACK_MINISTER_MOVE_POINTS.add(Position.valueOf(4, 6));
         BLACK_MINISTER_MOVE_POINTS.add(Position.valueOf(2, 8));
     }
 

@@ -20,7 +20,7 @@ public class RedKingMoveGenerator extends AbstractChessMoveGenerator {
     }
 
     @Override
-    public List<Position> generateMove(PointState[][] boardPosition, int startX, int startY) {
+    public List<Position> generateValidMove(PointState[][] boardPosition, int startX, int startY) {
         List<Position> positions = new ArrayList<>();
         for (int x = 7; x < 10; x++) {
             for (int y = 3; y < 6; y++) {
@@ -32,4 +32,16 @@ public class RedKingMoveGenerator extends AbstractChessMoveGenerator {
         return positions;
     }
 
+    @Override
+    public List<Position> generateRelateMove(PointState[][] boardPosition, int startX, int startY) {
+        List<Position> positions = new ArrayList<>();
+        for (int x = 7; x < 10; x++) {
+            for (int y = 3; y < 6; y++) {
+                if (chessMoveManager.isRelateMove(boardPosition, startX, startY, x, y)) {
+                    positions.add(Position.valueOf(x, y));
+                }
+            }
+        }
+        return positions;
+    }
 }

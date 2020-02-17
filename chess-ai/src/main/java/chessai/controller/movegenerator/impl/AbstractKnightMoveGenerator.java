@@ -13,7 +13,7 @@ import java.util.List;
 public abstract class AbstractKnightMoveGenerator extends AbstractChessMoveGenerator {
 
     @Override
-    public List<Position> generateMove(PointState[][] boardPosition, int startX, int startY) {
+    public List<Position> generateValidMove(PointState[][] boardPosition, int startX, int startY) {
         List<Position> positions = new ArrayList<>();
         int targetX, targetY;
         // 插入右下方的有效走法
@@ -62,6 +62,61 @@ public abstract class AbstractKnightMoveGenerator extends AbstractChessMoveGener
         targetX = startX + 1;
         targetY = startY - 2;
         if (chessMoveManager.isValidMove(boardPosition, startX, startY, targetX, targetY)) {
+            positions.add(Position.valueOf(targetX, targetY));
+        }
+        return positions;
+    }
+
+    @Override
+    public List<Position> generateRelateMove(PointState[][] boardPosition, int startX, int startY) {
+        List<Position> positions = new ArrayList<>();
+        int targetX, targetY;
+        // 插入右下方的有效走法
+        targetX = startX - 2;
+        targetY = startY + 1;
+        if (chessMoveManager.isRelateMove(boardPosition, startX, startY, targetX, targetY)) {
+            positions.add(Position.valueOf(targetX, targetY));
+        }
+        // 插入右下方的有效走法
+        targetX = startX - 1;
+        targetY = startY + 2;
+        if (chessMoveManager.isRelateMove(boardPosition, startX, startY, targetX, targetY)) {
+            positions.add(Position.valueOf(targetX, targetY));
+        }
+        // 插入右上方的有效走法
+        targetX = startX + 2;
+        targetY = startY + 1;
+        if (chessMoveManager.isRelateMove(boardPosition, startX, startY, targetX, targetY)) {
+            positions.add(Position.valueOf(targetX, targetY));
+        }
+        // 插入右上方的有效走法
+        targetX = startX + 1;
+        targetY = startY + 2;
+        if (chessMoveManager.isRelateMove(boardPosition, startX, startY, targetX, targetY)) {
+            positions.add(Position.valueOf(targetX, targetY));
+        }
+        // 插入左下方的有效走法
+        targetX = startX - 1;
+        targetY = startY - 2;
+        if (chessMoveManager.isRelateMove(boardPosition, startX, startY, targetX, targetY)) {
+            positions.add(Position.valueOf(targetX, targetY));
+        }
+        // 插入左下方的有效走法
+        targetX = startX - 2;
+        targetY = startY - 1;
+        if (chessMoveManager.isRelateMove(boardPosition, startX, startY, targetX, targetY)) {
+            positions.add(Position.valueOf(targetX, targetY));
+        }
+        // 插入左上方的有效走法
+        targetX = startX + 2;
+        targetY = startY - 1;
+        if (chessMoveManager.isRelateMove(boardPosition, startX, startY, targetX, targetY)) {
+            positions.add(Position.valueOf(targetX, targetY));
+        }
+        // 插入左上方的有效走法
+        targetX = startX + 1;
+        targetY = startY - 2;
+        if (chessMoveManager.isRelateMove(boardPosition, startX, startY, targetX, targetY)) {
             positions.add(Position.valueOf(targetX, targetY));
         }
         return positions;

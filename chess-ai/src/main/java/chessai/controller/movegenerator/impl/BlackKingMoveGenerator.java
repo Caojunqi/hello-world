@@ -20,11 +20,24 @@ public class BlackKingMoveGenerator extends AbstractChessMoveGenerator {
     }
 
     @Override
-    public List<Position> generateMove(PointState[][] boardPosition, int startX, int startY) {
+    public List<Position> generateValidMove(PointState[][] boardPosition, int startX, int startY) {
         List<Position> positions = new ArrayList<>();
         for (int x = 0; x < 3; x++) {
             for (int y = 3; y < 6; y++) {
                 if (chessMoveManager.isValidMove(boardPosition, startX, startY, x, y)) {
+                    positions.add(Position.valueOf(x, y));
+                }
+            }
+        }
+        return positions;
+    }
+
+    @Override
+    public List<Position> generateRelateMove(PointState[][] boardPosition, int startX, int startY) {
+        List<Position> positions = new ArrayList<>();
+        for (int x = 0; x < 3; x++) {
+            for (int y = 3; y < 6; y++) {
+                if (chessMoveManager.isRelateMove(boardPosition, startX, startY, x, y)) {
                     positions.add(Position.valueOf(x, y));
                 }
             }
