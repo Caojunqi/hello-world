@@ -42,6 +42,8 @@ public class ChessMoveManager {
      * @param maxDepth      本次搜索的最大搜索层数
      */
     public void createPossibleMoves(PointState[][] boardPosition, int curDepth, int maxDepth) {
+        // 在每次生成指定层的所有可能走法时需要先清除掉当前层之前的走法
+        clearPossibleMoves(curDepth);
         for (int i = 0; i < ChessBoard.CHESS_BOARD_HEIGHT; i++) {
             for (int j = 0; j < ChessBoard.CHESS_BOARD_LENGTH; j++) {
                 PointState pointState = boardPosition[i][j];
@@ -162,6 +164,15 @@ public class ChessMoveManager {
      */
     public void clearPossibleMoves() {
         this.moves.clear();
+    }
+
+    /**
+     * 清除指定层数的所有合理走法
+     *
+     * @param nPly 搜索层数
+     */
+    public void clearPossibleMoves(int nPly) {
+        this.moves.remove(nPly);
     }
 
 }
