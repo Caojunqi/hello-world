@@ -32,7 +32,7 @@ public class NegamaxSearchEngine extends AbstractSearchEngine {
      * @return 当前局面的最优估值
      */
     private int negamax(PointState[][] boardPosition, int curDepth, int maxDepth) {
-        int best = -ChessBoardUtils.MAX_EVALUATE_VALUE;
+        int best = -ChessBoardUtils.MAX_SEARCH_VALUE;
         if (isGameOver(boardPosition) || curDepth <= 0) {
             return evaluate(boardPosition, curDepth, maxDepth);
         }

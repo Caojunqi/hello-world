@@ -150,7 +150,7 @@ public class JiaBoardEvaluator implements IBoardEvaluator {
         int[][] posGuard = new int[ChessBoard.CHESS_BOARD_HEIGHT][ChessBoard.CHESS_BOARD_LENGTH];
         // 棋盘上各个点的灵活性
         int[][] posFlexibility = new int[ChessBoard.CHESS_BOARD_HEIGHT][ChessBoard.CHESS_BOARD_LENGTH];
-        int endGameScore = walkChessBoard(boardPosition, posThreat, posGuard, posFlexibility);
+        int endGameScore = walkChessBoard(boardPosition, campType, posThreat, posGuard, posFlexibility);
         if (endGameScore != 0) {
             // 如果终局了，直接返回终局分数
             return endGameScore;
@@ -170,12 +170,13 @@ public class JiaBoardEvaluator implements IBoardEvaluator {
      * 遍历棋盘，完善每个棋点的数据
      *
      * @param boardPosition  当前的棋局局势
+     * @param campType       接下来要走的阵营
      * @param posThreat      每个棋点的受威胁度
      * @param posGuard       每个棋点的受保护度
      * @param posFlexibility 每个棋点的灵活度
      * @return 如果碰到终局的情况，就直接返回一个终局评分
      */
-    private int walkChessBoard(PointState[][] boardPosition, int[][] posThreat, int[][] posGuard, int[][] posFlexibility) {
+    private int walkChessBoard(PointState[][] boardPosition, CampType campType, int[][] posThreat, int[][] posGuard, int[][] posFlexibility) {
         for (int i = 0; i < ChessBoard.CHESS_BOARD_HEIGHT; i++) {
             for (int j = 0; j < ChessBoard.CHESS_BOARD_LENGTH; j++) {
                 PointState pointState = boardPosition[i][j];
@@ -200,11 +201,11 @@ public class JiaBoardEvaluator implements IBoardEvaluator {
                         posFlexibility[i][j]++;
                     }
 
-                    if (ChessBoardUtils.AI_CAMP.getEnemyKing() == targetState) {
-                        // 如果能走到敌方老将的位置上，获胜
+                    if (!pointState.isSameCamp(targetState) && ChessBoardUtils.AI_CAMP.getEnemyKing() == targetState && campType == ChessBoardUtils.AI_CAMP) {
+                        // 接下来轮到AI走棋，如果能走到敌方老将的位置上，获胜
                         return ChessBoardUtils.MAX_EVALUATE_VALUE;
-                    } else if (ChessBoardUtils.AI_CAMP.getSelfKing() == targetState) {
-                        // 如果被人家走到了自己老将的位置上，失败
+                    } else if (!pointState.isSameCamp(targetState) && ChessBoardUtils.AI_CAMP.getSelfKing() == targetState && campType != ChessBoardUtils.AI_CAMP) {
+                        // 接下来轮到敌人走棋，如果被人家走到了自己老将的位置上，失败
                         return -ChessBoardUtils.MAX_EVALUATE_VALUE;
                     } else {
                         // 如果目标点不是老将，根据威胁的棋子加上威胁分值

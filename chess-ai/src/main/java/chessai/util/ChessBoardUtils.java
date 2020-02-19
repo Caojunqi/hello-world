@@ -23,6 +23,10 @@ public final class ChessBoardUtils {
      */
     public static int MAX_EVALUATE_VALUE = 20000;
     /**
+     * 搜索引擎在搜索的时候使用的极大值，要比棋面最大估值要要大，不然会出现空指针异常
+     */
+    public static int MAX_SEARCH_VALUE = 20001;
+    /**
      * 棋局默认红方是玩家，黑方是AI
      */
     public static CampType AI_CAMP = CampType.BLACK;

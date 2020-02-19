@@ -19,7 +19,7 @@ public class AlphaBetaSearchEngine extends AbstractSearchEngine {
     @Override
     public ChessMove searchBestMove(PointState[][] boardPosition) {
         bestMove = null;
-        alphaBeta(boardPosition, ChessBoardUtils.SEARCH_DEPTH, ChessBoardUtils.SEARCH_DEPTH, -ChessBoardUtils.MAX_EVALUATE_VALUE, ChessBoardUtils.MAX_EVALUATE_VALUE);
+        alphaBeta(boardPosition, ChessBoardUtils.SEARCH_DEPTH, ChessBoardUtils.SEARCH_DEPTH, -ChessBoardUtils.MAX_SEARCH_VALUE, ChessBoardUtils.MAX_SEARCH_VALUE);
         return bestMove;
     }
 

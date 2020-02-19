@@ -58,7 +58,7 @@ public class Start {
             ChessMove aiMove = searchEngine.searchBestMove(boardPosition);
             ChessBoard.getInstance().makeMove(aiMove);
             System.err.println("AI走一步：[" + aiMove.getStartX() + "," + aiMove.getStartY() + "] --> [" + aiMove.getTargetX() + "," + aiMove.getTargetY() + "]");
-            ChessBoardUtils.printChessBoard(ChessBoard.getInstance().getCurChessBoard());
+          //  ChessBoardUtils.printChessBoard(ChessBoard.getInstance().getCurChessBoard());
         }
     }
 
