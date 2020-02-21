@@ -5,7 +5,7 @@ import chessai.util.ChessBoardUtils;
 import org.springframework.stereotype.Component;
 
 /**
- * 棋子走法生成器--红卒
+ * 棋子走法生成器--红兵
  */
 @Component
 public class RedPawnMoveGenerator extends AbstractPawnMoveGenerator {

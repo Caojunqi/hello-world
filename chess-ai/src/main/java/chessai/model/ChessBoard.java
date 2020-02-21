@@ -105,12 +105,16 @@ public class ChessBoard {
      * 在棋盘上走一步棋
      *
      * @param chessMove 棋子走法
+     * @return 被吃掉的棋子
      */
-    public void makeMove(ChessMove chessMove) {
+    public PointState makeMove(ChessMove chessMove) {
+        // 保留原位置棋子
+        PointState oldTargetState = curChessBoard[chessMove.getTargetX()][chessMove.getTargetY()];
         // 把棋子移动到目标位置
         curChessBoard[chessMove.getTargetX()][chessMove.getTargetY()] = curChessBoard[chessMove.getStartX()][chessMove.getStartY()];
         // 将原位置清空
         curChessBoard[chessMove.getStartX()][chessMove.getStartY()] = PointState.NO_CHESS;
+        return oldTargetState;
     }
 
     /**

@@ -95,7 +95,7 @@ public class JiaBoardEvaluator implements IBoardEvaluator {
     }
 
     // 兵在不同位置的附加值，基本上是过河之后越靠近敌方老将越高
-    // 红卒的附加值矩阵
+    // 红兵的附加值矩阵
     private int[][] RED_PAWN_ADDITION = {
             {0, 0, 0, 0, 0, 0, 0, 0, 0},
             {90, 90, 110, 120, 120, 120, 110, 90, 90},
@@ -108,7 +108,7 @@ public class JiaBoardEvaluator implements IBoardEvaluator {
             {0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0},
     };
-    // 黑兵的附加值矩阵
+    // 黑卒的附加值矩阵
     private int[][] BLACK_PAWN_ADDITION = {
             {0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0},

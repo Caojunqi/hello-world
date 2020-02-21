@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 棋子走法生成器--黑帅
+ * 棋子走法生成器--黑将
  */
 @Component
 public class BlackKingMoveGenerator extends AbstractChessMoveGenerator {

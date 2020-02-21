@@ -43,13 +43,13 @@ public enum CampType {
     RED {
         @Override
         public boolean isWin(PointState[][] boardPosition) {
-            // 黑帅阵亡，红方获胜
+            // 黑将阵亡，红方获胜
             return !ChessBoardUtils.isBlackLive(boardPosition);
         }
 
         @Override
         public boolean isLose(PointState[][] boardPosition) {
-            // 红将阵亡，红方失败
+            // 红帅阵亡，红方失败
             return !ChessBoardUtils.isRedLive(boardPosition);
         }
 
@@ -74,13 +74,13 @@ public enum CampType {
     BLACK {
         @Override
         public boolean isWin(PointState[][] boardPosition) {
-            // 红将阵亡，黑方获胜
+            // 红帅阵亡，黑方获胜
             return !ChessBoardUtils.isRedLive(boardPosition);
         }
 
         @Override
         public boolean isLose(PointState[][] boardPosition) {
-            // 黑帅阵亡，黑方失败
+            // 黑将阵亡，黑方失败
             return !ChessBoardUtils.isBlackLive(boardPosition);
         }
 

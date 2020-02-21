@@ -9,9 +9,9 @@ public enum PointState {
      */
     NO_CHESS(0, 88, CampType.NO, "[]"),
     /**
-     * 黑帅
+     * 黑将
      */
-    BLACK_KING(1, 1, CampType.BLACK, "黑帅"),
+    BLACK_KING(1, 1, CampType.BLACK, "黑将"),
     /**
      * 黑车
      */
@@ -33,13 +33,13 @@ public enum PointState {
      */
     BLACK_MINISTER(6, 2, CampType.BLACK, "黑象"),
     /**
-     * 黑兵
+     * 黑卒
      */
-    BLACK_PAWN(7, 5, CampType.BLACK, "黑兵"),
+    BLACK_PAWN(7, 5, CampType.BLACK, "黑卒"),
     /**
-     * 红将
+     * 红帅
      */
-    RED_KING(8, 1, CampType.RED, "红将"),
+    RED_KING(8, 1, CampType.RED, "红帅"),
     /**
      * 红车
      */
@@ -61,9 +61,9 @@ public enum PointState {
      */
     RED_MINISTER(13, 2, CampType.RED, "红相"),
     /**
-     * 红卒
+     * 红兵
      */
-    RED_PAWN(14, 5, CampType.RED, "红卒"),
+    RED_PAWN(14, 5, CampType.RED, "红兵"),
     ;
 
     /**

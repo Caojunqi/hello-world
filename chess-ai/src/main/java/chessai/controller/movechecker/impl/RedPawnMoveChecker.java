@@ -5,7 +5,7 @@ import chessai.util.ChessBoardUtils;
 import org.springframework.stereotype.Component;
 
 /**
- * 棋子移动检测器--红卒
+ * 棋子移动检测器--红兵
  */
 @Component
 public class RedPawnMoveChecker extends AbstractPawnMoveChecker {

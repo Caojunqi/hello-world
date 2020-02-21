@@ -68,11 +68,11 @@ public abstract class AbstractSearchEngine {
      */
     public boolean isGameOver(PointState[][] boardPosition) {
         if (!ChessBoardUtils.isBlackLive(boardPosition)) {
-            // 黑帅已死
+            // 黑将已死
             return true;
         }
         if (!ChessBoardUtils.isRedLive(boardPosition)) {
-            // 红将已死
+            // 红帅已死
             return true;
         }
         return false;
