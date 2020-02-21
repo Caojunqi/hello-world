@@ -50,15 +50,29 @@ public class Start {
                 System.err.println("玩家移动不合法！！");
                 continue;
             }
-            ChessBoard.getInstance().makeMove(playerMove);
+            PointState oldAiState = ChessBoard.getInstance().makeMove(playerMove);
             System.err.println("玩家走一步：[" + playerMove.getStartX() + "," + playerMove.getStartY() + "] --> [" + playerMove.getTargetX() + "," + playerMove.getTargetY() + "]");
-            ChessBoardUtils.printChessBoard(ChessBoard.getInstance().getCurChessBoard());
+            if (oldAiState != PointState.NO_CHESS) {
+                System.err.println("【" + oldAiState.getName() + "】阵亡！");
+            }
+            if (oldAiState == ChessBoardUtils.AI_CAMP.getSelfKing()) {
+                System.err.println("AI阵营主将阵亡！AI失败！棋局结束！");
+                break;
+            }
+            // ChessBoardUtils.printChessBoard(ChessBoard.getInstance().getCurChessBoard());
             // AI走一步
             ChessMoveManager.getInstance().clearPossibleMoves();
             ChessMove aiMove = searchEngine.searchBestMove(boardPosition);
-            ChessBoard.getInstance().makeMove(aiMove);
+            PointState oldPlayerState = ChessBoard.getInstance().makeMove(aiMove);
             System.err.println("AI走一步：[" + aiMove.getStartX() + "," + aiMove.getStartY() + "] --> [" + aiMove.getTargetX() + "," + aiMove.getTargetY() + "]");
-          //  ChessBoardUtils.printChessBoard(ChessBoard.getInstance().getCurChessBoard());
+            if (oldPlayerState != PointState.NO_CHESS) {
+                System.err.println("【" + oldPlayerState.getName() + "】阵亡！");
+            }
+            if (oldPlayerState == ChessBoardUtils.AI_CAMP.getEnemyKing()) {
+                System.err.println("玩家阵营主将阵亡！玩家失败！棋局结束！");
+                break;
+            }
+            //  ChessBoardUtils.printChessBoard(ChessBoard.getInstance().getCurChessBoard());
         }
     }
 
