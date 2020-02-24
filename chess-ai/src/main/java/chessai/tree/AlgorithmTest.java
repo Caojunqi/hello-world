@@ -12,7 +12,7 @@ public class AlgorithmTest {
 
     public static void main(String[] args) {
         Tree tree = TestTree.valueOf();
-        alphaBetaFailSoft(tree.getRoot(), true, ALPHA, BETA);
+        alphaBetaFailSoft(tree.getRoot(), true, 1, 4);
         if (BEST_BODE == null) {
             SystemOut.error("没有找到最佳路径！！");
         } else {

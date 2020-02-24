@@ -22,7 +22,7 @@ public class FailSoftAlphaBetaSearchEngine extends AbstractSearchEngine {
         return bestMove;
     }
 
-    private int failSoftAlphaBeta(PointState[][] boardPosition, int curDepth, int maxDepth, int alpha, int beta) {
+    protected int failSoftAlphaBeta(PointState[][] boardPosition, int curDepth, int maxDepth, int alpha, int beta) {
         int current = -ChessBoardUtils.MAX_SEARCH_VALUE;
         if (isGameOver(boardPosition) || curDepth <= 0) {
             return evaluate(boardPosition, curDepth, maxDepth);
