@@ -2,6 +2,8 @@ package chessai.tree;
 
 import chessai.common.SystemOut;
 
+import java.util.List;
+
 /**
  * 算法测试类
  */
@@ -12,7 +14,7 @@ public class AlgorithmTest {
 
     public static void main(String[] args) {
         Tree tree = TestTree.valueOf();
-        alphaBetaFailSoft(tree.getRoot(), true, 1, 4);
+        principalVariationShort(tree.getRoot(), true, ALPHA, BETA);
         if (BEST_BODE == null) {
             SystemOut.error("没有找到最佳路径！！");
         } else {
@@ -99,6 +101,135 @@ public class AlgorithmTest {
                 }
             }
         }
+        return current;
+    }
+
+    /**
+     * PVS搜索算法（精简版）
+     */
+    private static int principalVariationShort(Node node, boolean isMaxNode, int alpha, int beta) {
+        int current = ALPHA;
+        if (node.getChildren().isEmpty()) {
+            SystemOut.error("估值节点：" + node.getId());
+            return isMaxNode ? node.getValue() : -node.getValue();
+        }
+
+        List<Node> allChildren = node.getChildren();
+
+        for (int i = 0; i < allChildren.size(); i++) {
+            int value = 0;
+            Node child = allChildren.get(i);
+            if (i == 0) {
+                // 使用全窗口搜索第一个节点
+                value = -principalVariationShort(child, !isMaxNode, -beta, -alpha);
+            } else {
+                // 用极小窗口搜索其他节点
+                value = -principalVariationShort(child, !isMaxNode, -alpha - 1, -alpha);
+                if (value > alpha && value < beta) {
+                    // 用全窗口重新搜索
+                    value = -principalVariationShort(child, !isMaxNode, -beta, -value);
+                }
+            }
+
+            if (value > current) {
+                current = value;
+                if (value >= beta) {
+                    break;
+                }
+                if (value > alpha) {
+                    alpha = value;
+
+                    if (child.getParentId() == 0) {
+                        BEST_BODE = child;
+                    }
+                }
+            }
+        }
+
+        return current;
+    }
+
+    /**
+     * PVS搜索算法（繁琐版）
+     */
+    private static int principalVariation(Node node, boolean isMaxNode, int alpha, int beta) {
+        int current = 0;
+        if (node.getChildren().isEmpty()) {
+            SystemOut.error("估值节点：" + node.getId());
+            // return isMaxNode ? node.getValue() : -node.getValue();
+            return node.getValue();
+        }
+
+        List<Node> allChildren = node.getChildren();
+
+        if (isMaxNode) {
+            current = ALPHA;
+            for (int i = 0; i < allChildren.size(); i++) {
+                int value = 0;
+                Node child = allChildren.get(i);
+                if (i == 0) {
+                    // 使用全窗口搜索第一个节点
+                    value = principalVariation(child, !isMaxNode, alpha, beta);
+                } else {
+                    // 用极小窗口搜索其他节点
+                    value = principalVariation(child, !isMaxNode, alpha, alpha + 1);
+                    if (value > alpha && value < beta) {
+                        // 用全窗口重新搜索
+                        value = principalVariation(child, !isMaxNode, value, beta);
+                    }
+                }
+
+                if (value > current) {
+                    current = value;
+
+                    if (value > alpha) {
+                        alpha = value;
+
+                        if (child.getParentId() == 0) {
+                            BEST_BODE = child;
+                        }
+                    }
+                    if (alpha >= beta) {
+                        break;
+                    }
+                }
+            }
+        } else {
+            current = BETA;
+            for (int i = 0; i < allChildren.size(); i++) {
+                int value = 0;
+                Node child = allChildren.get(i);
+                if (i == 0) {
+                    // 使用全窗口搜索第一个节点
+                    value = principalVariation(child, !isMaxNode, alpha, beta);
+                } else {
+                    // 用极小窗口搜索其他节点
+                    value = principalVariation(child, !isMaxNode, beta - 1, beta);
+                    if (value > alpha && value < beta) {
+                        // 用全窗口重新搜索
+                        value = principalVariation(child, !isMaxNode, alpha, value);
+                    }
+                }
+
+                if (value < current) {
+                    current = value;
+
+                    if (value < beta) {
+                        beta = value;
+
+                        if (child.getParentId() == 0) {
+                            BEST_BODE = child;
+                        }
+                    }
+
+                    if (alpha >= beta) {
+                        break;
+                    }
+                }
+            }
+        }
+
+
         return current;
     }
 }
