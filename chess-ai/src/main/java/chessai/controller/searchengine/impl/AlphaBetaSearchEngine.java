@@ -3,6 +3,7 @@ package chessai.controller.searchengine.impl;
 import chessai.controller.ChessMoveManager;
 import chessai.controller.evaluation.IBoardEvaluator;
 import chessai.controller.searchengine.AbstractSearchEngine;
+import chessai.model.ChessBoard;
 import chessai.model.ChessMove;
 import chessai.model.PointState;
 import chessai.util.ChessBoardUtils;
@@ -17,7 +18,8 @@ public class AlphaBetaSearchEngine extends AbstractSearchEngine {
     }
 
     @Override
-    public ChessMove searchBestMove(PointState[][] boardPosition) {
+    public ChessMove searchBestMove() {
+        PointState[][] boardPosition = ChessBoard.getInstance().getCurChessBoard();
         bestMove = null;
         alphaBeta(boardPosition, ChessBoardUtils.SEARCH_DEPTH, ChessBoardUtils.SEARCH_DEPTH, -ChessBoardUtils.MAX_SEARCH_VALUE, ChessBoardUtils.MAX_SEARCH_VALUE);
         return bestMove;

@@ -58,4 +58,12 @@ public final class RandomUtils {
         }
         return min + ThreadLocalRandom.current().nextDouble(max - min);
     }
+
+    public static int nextInt() {
+        return ThreadLocalRandom.current().nextInt();
+    }
+
+    public static long nextLong() {
+        return ThreadLocalRandom.current().nextLong();
+    }
 }

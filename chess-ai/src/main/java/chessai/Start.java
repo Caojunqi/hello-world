@@ -3,7 +3,7 @@ package chessai;
 import chessai.controller.ChessMoveManager;
 import chessai.controller.evaluation.jia.JiaBoardEvaluator;
 import chessai.controller.searchengine.AbstractSearchEngine;
-import chessai.controller.searchengine.impl.PrincipalVariationSearchEngine;
+import chessai.controller.searchengine.impl.TranspositionTableAlphaBetaSearchEngine;
 import chessai.model.ChessBoard;
 import chessai.model.ChessMove;
 import chessai.model.PointState;
@@ -27,8 +27,7 @@ public class Start {
         new ClassPathXmlApplicationContext(DEFAULT_APPLICATION_CONTEXT);
         // 初始化棋盘
         ChessBoard.getInstance().initChessBoard();
-        AbstractSearchEngine searchEngine = new PrincipalVariationSearchEngine(JiaBoardEvaluator.getInstance());
-        PointState[][] boardPosition = ChessBoard.getInstance().getCurChessBoard();
+        AbstractSearchEngine searchEngine = new TranspositionTableAlphaBetaSearchEngine(JiaBoardEvaluator.getInstance());
         // 开始下棋
         System.err.println("开始下棋，玩家先走：");
         Scanner scanner = new Scanner(System.in);
@@ -40,12 +39,12 @@ public class Start {
                 System.err.println("玩家移动不合法！！");
                 continue;
             }
-            PointState playerState = boardPosition[playerMove.getStartX()][playerMove.getStartY()];
+            PointState playerState = ChessBoard.getInstance().getPointState(playerMove.getStartX(), playerMove.getStartY());
             if (playerState.isSameCamp(ChessBoardUtils.AI_CAMP)) {
                 System.err.println("玩家走了AI的棋！！");
                 continue;
             }
-            boolean isValidMove = ChessMoveManager.getInstance().isValidMove(boardPosition, playerMove.getStartX(), playerMove.getStartY(), playerMove.getTargetX(), playerMove.getTargetY());
+            boolean isValidMove = ChessMoveManager.getInstance().isValidMove(ChessBoard.getInstance().getCurChessBoard(), playerMove.getStartX(), playerMove.getStartY(), playerMove.getTargetX(), playerMove.getTargetY());
             if (!isValidMove) {
                 System.err.println("玩家移动不合法！！");
                 continue;
@@ -62,7 +61,7 @@ public class Start {
             // ChessBoardUtils.printChessBoard(ChessBoard.getInstance().getCurChessBoard());
             // AI走一步
             ChessMoveManager.getInstance().clearPossibleMoves();
-            ChessMove aiMove = searchEngine.searchBestMove(boardPosition);
+            ChessMove aiMove = searchEngine.searchBestMove();
             PointState oldPlayerState = ChessBoard.getInstance().makeMove(aiMove);
             System.err.println("AI走一步：[" + aiMove.getStartX() + "," + aiMove.getStartY() + "] --> [" + aiMove.getTargetX() + "," + aiMove.getTargetY() + "]");
             if (oldPlayerState != PointState.NO_CHESS) {

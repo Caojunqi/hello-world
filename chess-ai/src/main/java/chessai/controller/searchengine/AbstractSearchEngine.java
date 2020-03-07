@@ -10,7 +10,6 @@ import chessai.util.ChessBoardUtils;
  * 搜索引擎抽象类
  */
 public abstract class AbstractSearchEngine {
-
     /**
      * 当前局面的最优走法
      */
@@ -21,12 +20,11 @@ public abstract class AbstractSearchEngine {
     protected IBoardEvaluator boardEvaluator;
 
     /**
-     * 针对指定棋局局势搜索一个最佳棋子移动方案
+     * 针对当前棋局局势搜索一个最佳棋子移动方案
      *
-     * @param boardPosition 所面对的棋局局势
      * @return 最佳棋子移动方案
      */
-    public abstract ChessMove searchBestMove(PointState[][] boardPosition);
+    public abstract ChessMove searchBestMove();
 
     /**
      * 在指定棋局中移动一步棋子

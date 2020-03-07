@@ -1,6 +1,7 @@
 package chessai.controller.searchengine.impl;
 
 import chessai.controller.evaluation.IBoardEvaluator;
+import chessai.model.ChessBoard;
 import chessai.model.ChessMove;
 import chessai.model.PointState;
 import chessai.util.ChessBoardUtils;
@@ -20,7 +21,8 @@ public class AspirationSearchEngine extends FailSoftAlphaBetaSearchEngine {
     }
 
     @Override
-    public ChessMove searchBestMove(PointState[][] boardPosition) {
+    public ChessMove searchBestMove() {
+        PointState[][] boardPosition = ChessBoard.getInstance().getCurChessBoard();
         bestMove = null;
         // 先进行浅层搜索，猜测目标值范围
         int shallowDepth = ChessBoardUtils.SEARCH_DEPTH - 1;

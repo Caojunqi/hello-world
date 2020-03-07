@@ -1,5 +1,6 @@
 package chessai.model;
 
+import chessai.model.transpositiontable.TranspositionTable;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -42,6 +43,10 @@ public class ChessBoard {
      * 当前的棋盘状态
      */
     private PointState[][] curChessBoard;
+    /**
+     * 当前棋盘的置换表
+     */
+    private TranspositionTable transpositionTable;
 
     /**
      * 初始化棋盘
@@ -62,6 +67,7 @@ public class ChessBoard {
             }
         }
         this.curChessBoard = curChessBoard;
+        this.transpositionTable = TranspositionTable.valueOf(this);
     }
 
     public static ChessBoard getInstance() {
@@ -126,4 +132,12 @@ public class ChessBoard {
         return curChessBoard;
     }
 
+    /**
+     * 获取当前棋盘的置换表
+     *
+     * @return 置换表
+     */
+    public TranspositionTable getTranspositionTable() {
+        return transpositionTable;
+    }
 }
