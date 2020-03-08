@@ -50,4 +50,14 @@ public class HashItem {
     public int getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "HashItem{" +
+                "itemType=" + itemType +
+                ", checkSum=" + checkSum +
+                ", depth=" + depth +
+                ", value=" + value +
+                '}';
+    }
 }

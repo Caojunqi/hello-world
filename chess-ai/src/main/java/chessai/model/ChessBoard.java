@@ -114,6 +114,8 @@ public class ChessBoard {
      * @return 被吃掉的棋子
      */
     public PointState makeMove(ChessMove chessMove) {
+        // 先计算一下置换表的HASH值
+        transpositionTable.calcMakeMoveHashKey(chessMove);
         // 保留原位置棋子
         PointState oldTargetState = curChessBoard[chessMove.getTargetX()][chessMove.getTargetY()];
         // 把棋子移动到目标位置

@@ -45,6 +45,7 @@ public class TranspositionTableAlphaBetaSearchEngine extends AbstractSearchEngin
         // 生成合理走法
         ChessMoveManager.getInstance().createPossibleMoves(boardPosition, curDepth, maxDepth);
         // 遍历所有合理走法
+        HashItemType itemType = HashItemType.UpperBound;
         for (ChessMove move : ChessMoveManager.getInstance().getPossibleMoves(curDepth)) {
             // 根据走法产生新局面，注，这里必须是先计算HASH值，再执行走法
             transpositionTable.calcMakeMoveHashKey(move);
@@ -59,12 +60,14 @@ public class TranspositionTableAlphaBetaSearchEngine extends AbstractSearchEngin
                 current = score;
                 if (score >= beta) {
                     // 将节点下边界存入置换表
-                    transpositionTable.enterHashTable(HashItemType.LowerBound, score, curDepth, isMaxNode);
-                    break;
+                    // 此时这个节点的具体值并不确定，只能确定它的下边界值
+                    transpositionTable.enterHashTable(HashItemType.LowerBound, curDepth, score, isMaxNode);
+                    return score;
                 }
                 if (score > alpha) {
                     alpha = score;
                     // 将节点的确切值存入置换表
+                    itemType = HashItemType.Exact;
                     transpositionTable.enterHashTable(HashItemType.Exact, curDepth, score, isMaxNode);
                     if (curDepth == maxDepth) {
                         bestMove = move;
@@ -72,8 +75,10 @@ public class TranspositionTableAlphaBetaSearchEngine extends AbstractSearchEngin
                 }
             }
         }
-        // 将节点的上边界存入置换表
-        transpositionTable.enterHashTable(HashItemType.UpperBound, curDepth, alpha, isMaxNode);
+        // 将节点的上边界存入置换表，已经遍历了所有子节点的值，这些值既没有突破beat，也没有修改alpha，可见他们的最大值都不会超过alpha
+        if (itemType == HashItemType.UpperBound) {
+            transpositionTable.enterHashTable(HashItemType.UpperBound, curDepth, alpha, isMaxNode);
+        }
         return current;
     }
 }

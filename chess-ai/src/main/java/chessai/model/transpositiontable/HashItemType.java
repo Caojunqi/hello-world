@@ -5,7 +5,7 @@ package chessai.model.transpositiontable;
  */
 public enum HashItemType {
     /**
-     * 精确
+     * 精确，可以明确判定这个节点的值
      */
     Exact {
         @Override
@@ -14,7 +14,9 @@ public enum HashItemType {
         }
     },
     /**
-     * 下边界
+     * 下边界，不能确定这个节点明确的值，只知道这个节点的准确值一定大于等于存储值
+     * 所以这个存储值只有在可以剪枝的时候，才能派上用场
+     * 如果存储值大于等于beta，就表明这个节点的准确值也一定大于等级beta，一定能触发剪枝
      */
     LowerBound {
         @Override
@@ -26,7 +28,9 @@ public enum HashItemType {
         }
     },
     /**
-     * 上边界
+     * 上边界，同上，也不能确定这个节点明确的值，只知道这个节点的值一定小于等于存储值
+     * 同样的，这个存储值也只有在可以触发剪枝的时候，才能派上用场
+     * 如果存储值小于等于alpha，那就表明这个节点的准确值也一定小于等于alpha，一定能触发剪枝
      */
     UpperBound {
         @Override
