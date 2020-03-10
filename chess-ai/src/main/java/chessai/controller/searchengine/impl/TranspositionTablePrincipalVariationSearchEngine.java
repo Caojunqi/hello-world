@@ -62,6 +62,11 @@ public class TranspositionTablePrincipalVariationSearchEngine extends AbstractSe
                 if (score > alpha && score < beta) {
                     // 用全窗口重新搜索
                     // 一旦跳入全窗口搜索，就表示前面搜索的该子节点的结果不准确，删掉，子节点的isMaxNode和父节点刚好相反
+                    // TODO 这个算法还有可以优化的地方，因为PVS搜索引擎剪枝比较粗暴，导致往置换表中存储的Exact类型的数据有时候是不准确的，
+                    //  例如A节点有两个子节点B和C，B子节点发生剪枝，在置换表中存储了一个LowerBound数据并返回，C子节点也发生剪枝，也在置换表中存储了一个LowerBound数据也返回了，
+                    //  结果A节点根据两个子节点的LowerBound数据得出了一个Exact数据，存储到置换表中并返回，此时的这个Exact就不一定是准确的值了，
+                    //  一旦该节点再次跳入全局搜索，就表明之前存储的Exact数据并不准确，需要重新搜索，我采取的措施是直接移除掉之前的Exact数据，重新计算一遍，
+                    //  后面可以想一想，能否直接就不存这个不正确的值，这样可以把置换表搞小一些。
                     transpositionTable.removeHashTable(!isMaxNode);
                     score = -principalVariation(boardPosition, curDepth - 1, maxDepth, -beta, -score);
                 }
