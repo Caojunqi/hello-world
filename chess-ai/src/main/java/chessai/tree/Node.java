@@ -16,6 +16,10 @@ public class Node {
      */
     private int parentId;
     /**
+     * 节点深度
+     */
+    private int depth;
+    /**
      * 当前节点的值，-9999表示当前节点为初始化
      */
     private int value;
@@ -28,14 +32,15 @@ public class Node {
         // 私有化构造器
     }
 
-    public static Node valueOf(int id, int parentId) {
-        return valueOf(id, parentId, -9999);
+    public static Node valueOf(int id, int parentId, int depth) {
+        return valueOf(id, parentId, depth, -9999);
     }
 
-    public static Node valueOf(int id, int parentId, int value) {
+    public static Node valueOf(int id, int parentId, int depth, int value) {
         Node node = new Node();
         node.id = id;
         node.parentId = parentId;
+        node.depth = depth;
         node.value = value;
         return node;
     }
@@ -69,6 +74,10 @@ public class Node {
 
     public int getParentId() {
         return parentId;
+    }
+
+    public int getDepth() {
+        return depth;
     }
 
     public int getValue() {

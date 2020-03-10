@@ -147,6 +147,16 @@ public class TranspositionTable {
     }
 
     /**
+     * 从置换表中删除数据
+     *
+     * @param isMaxNode 当前局面是否是最大值节点，true-是最大值节点；false-是最小值节点
+     */
+    public void removeHashTable(boolean isMaxNode) {
+        Map<Integer, HashItem> itemMap = isMaxNode ? maxNodeHashMap : minNodeHashMap;
+        itemMap.remove(chessBoardHashKey32);
+    }
+
+    /**
      * 查找哈希表
      *
      * @param alpha     alpha-beta搜索的上边界
