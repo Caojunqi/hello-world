@@ -24,13 +24,13 @@ public class RedKingMoveChecker extends AbstractKingMoveChecker {
     @Override
     protected boolean isKingFace(PointState[][] boardPosition, int targetX, int targetY) {
         Position rivalKingPosition = getRivalKingPosition(boardPosition);
-        if (rivalKingPosition.getX() != targetX) {
+        if (rivalKingPosition.getY() != targetY) {
             // 两个老将不在同一列
             return false;
         }
 
-        for (int i = targetY - 1; i < rivalKingPosition.getY(); i--) {
-            if (boardPosition[targetX][i] != PointState.NO_CHESS) {
+        for (int i = targetX - 1; i > rivalKingPosition.getX(); i--) {
+            if (boardPosition[i][targetY] != PointState.NO_CHESS) {
                 // 两个棋子中间有棋子
                 return false;
             }
