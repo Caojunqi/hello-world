@@ -1,5 +1,7 @@
 package chessai.model;
 
+import java.util.Objects;
+
 /**
  * 棋子走法
  */
@@ -34,6 +36,22 @@ public class ChessMove {
         return chessMove;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessMove chessMove = (ChessMove) o;
+        return startX == chessMove.startX &&
+                startY == chessMove.startY &&
+                targetX == chessMove.targetX &&
+                targetY == chessMove.targetY;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startX, startY, targetX, targetY);
+    }
+
     public int getStartX() {
         return startX;
     }
@@ -65,4 +83,5 @@ public class ChessMove {
     public void setTargetY(int targetY) {
         this.targetY = targetY;
     }
+
 }
