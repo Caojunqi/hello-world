@@ -51,8 +51,6 @@ public class TranspositionTable {
         transpositionTable.chessBoard = chessBoard;
         transpositionTable.initRandomKey();
         transpositionTable.calcChessBoardInitHashKey();
-
-
         return transpositionTable;
     }
 

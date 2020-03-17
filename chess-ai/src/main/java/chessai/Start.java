@@ -83,13 +83,13 @@ public class Start {
      * @return 转换后的象棋走法
      */
     private static ChessMove convertStr2Move(String str) {
-        String[] strArr = str.split("\\s+");
-        if (strArr.length != 4) {
+        char[] charArr = str.toCharArray();
+        if (charArr.length != 4) {
             return null;
         }
         int[] intArr = new int[4];
         for (int i = 0; i < 4; i++) {
-            intArr[i] = Integer.parseInt(strArr[i]);
+            intArr[i] = Integer.parseInt(new String("" + charArr[i]));
         }
         return ChessMove.valueOf(intArr[0], intArr[1], intArr[2], intArr[3]);
     }
