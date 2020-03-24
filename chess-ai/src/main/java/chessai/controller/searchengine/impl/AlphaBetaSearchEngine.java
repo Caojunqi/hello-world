@@ -1,6 +1,5 @@
 package chessai.controller.searchengine.impl;
 
-import chessai.controller.ChessMoveManager;
 import chessai.controller.evaluation.IBoardEvaluator;
 import chessai.controller.searchengine.AbstractSearchEngine;
 import chessai.model.ChessBoard;
@@ -20,6 +19,7 @@ public class AlphaBetaSearchEngine extends AbstractSearchEngine {
     @Override
     public ChessMove searchBestMove() {
         PointState[][] boardPosition = ChessBoard.getInstance().getCurChessBoard();
+        clearPossibleMoves();
         bestMove = null;
         alphaBeta(boardPosition, ChessBoardUtils.SEARCH_DEPTH, ChessBoardUtils.SEARCH_DEPTH, -ChessBoardUtils.MAX_SEARCH_VALUE, ChessBoardUtils.MAX_SEARCH_VALUE);
         return bestMove;
@@ -30,9 +30,9 @@ public class AlphaBetaSearchEngine extends AbstractSearchEngine {
             return evaluate(boardPosition, curDepth, maxDepth);
         }
         // 生成合理走法
-        ChessMoveManager.getInstance().createPossibleMoves(boardPosition, curDepth, maxDepth);
+        createPossibleMoves(boardPosition, curDepth, maxDepth);
         // 遍历所有合理走法
-        for (ChessMove move : ChessMoveManager.getInstance().getPossibleMoves(curDepth)) {
+        for (ChessMove move : getPossibleMoves(curDepth)) {
             // 根据走法产生新局面
             PointState oldTargetState = makeMove(boardPosition, move);
             // 递归调用Alpha-Beta剪枝搜索下一层的节点

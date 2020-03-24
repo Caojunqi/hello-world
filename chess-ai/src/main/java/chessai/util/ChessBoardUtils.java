@@ -33,7 +33,7 @@ public final class ChessBoardUtils {
     /**
      * 每次预测步数
      */
-    public static int SEARCH_DEPTH = 5;
+    public static int SEARCH_DEPTH = 3;
 
     /**
      * 红仕可移动位置集合

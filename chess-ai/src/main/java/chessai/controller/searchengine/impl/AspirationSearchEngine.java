@@ -23,6 +23,7 @@ public class AspirationSearchEngine extends FailSoftAlphaBetaSearchEngine {
     @Override
     public ChessMove searchBestMove() {
         PointState[][] boardPosition = ChessBoard.getInstance().getCurChessBoard();
+        clearPossibleMoves();
         bestMove = null;
         // 先进行浅层搜索，猜测目标值范围
         int shallowDepth = ChessBoardUtils.SEARCH_DEPTH - 1;

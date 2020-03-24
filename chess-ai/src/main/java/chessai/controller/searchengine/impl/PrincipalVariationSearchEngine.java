@@ -1,6 +1,5 @@
 package chessai.controller.searchengine.impl;
 
-import chessai.controller.ChessMoveManager;
 import chessai.controller.evaluation.IBoardEvaluator;
 import chessai.controller.searchengine.AbstractSearchEngine;
 import chessai.model.ChessBoard;
@@ -23,6 +22,7 @@ public class PrincipalVariationSearchEngine extends AbstractSearchEngine {
     @Override
     public ChessMove searchBestMove() {
         PointState[][] boardPosition = ChessBoard.getInstance().getCurChessBoard();
+        clearPossibleMoves();
         bestMove = null;
         principalVariation(boardPosition, ChessBoardUtils.SEARCH_DEPTH, ChessBoardUtils.SEARCH_DEPTH, -ChessBoardUtils.MAX_SEARCH_VALUE, ChessBoardUtils.MAX_SEARCH_VALUE);
         return bestMove;
@@ -35,9 +35,9 @@ public class PrincipalVariationSearchEngine extends AbstractSearchEngine {
         }
 
         // 生成合理走法
-        ChessMoveManager.getInstance().createPossibleMoves(boardPosition, curDepth, maxDepth);
+        createPossibleMoves(boardPosition, curDepth, maxDepth);
         // 遍历所有合理走法
-        List<ChessMove> allPossibleMoves = ChessMoveManager.getInstance().getPossibleMoves(curDepth);
+        List<ChessMove> allPossibleMoves = getPossibleMoves(curDepth);
 
         for (int i = 0; i < allPossibleMoves.size(); i++) {
             int score = 0;

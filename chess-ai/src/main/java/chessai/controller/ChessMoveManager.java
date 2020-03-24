@@ -1,16 +1,11 @@
 package chessai.controller;
 
 import chessai.controller.movechecker.AbstractChessMoveChecker;
-import chessai.controller.movegenerator.AbstractChessMoveGenerator;
-import chessai.model.*;
+import chessai.model.PointState;
 import chessai.util.ChessBoardUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 棋子走法管理类
@@ -20,11 +15,6 @@ public class ChessMoveManager {
 
     private static ChessMoveManager self;
 
-    /**
-     * 当前局面走法集合 <搜索层数, 每层的合法走法>
-     */
-    private Map<Integer, List<ChessMove>> moves = new HashMap<>();
-
     public static ChessMoveManager getInstance() {
         return self;
     }
@@ -32,36 +22,6 @@ public class ChessMoveManager {
     @PostConstruct
     public void init() {
         self = this;
-    }
-
-    /**
-     * 用以产生当前局面中所有可能的走法
-     *
-     * @param boardPosition 当前局势
-     * @param curDepth      当前搜索的层数，同一棋子在每层的走法存在不同的位置
-     * @param maxDepth      本次搜索的最大搜索层数
-     */
-    public void createPossibleMoves(PointState[][] boardPosition, int curDepth, int maxDepth) {
-        // 在每次生成指定层的所有可能走法时需要先清除掉当前层之前的走法
-        clearPossibleMoves(curDepth);
-        for (int i = 0; i < ChessBoard.CHESS_BOARD_HEIGHT; i++) {
-            for (int j = 0; j < ChessBoard.CHESS_BOARD_LENGTH; j++) {
-                PointState pointState = boardPosition[i][j];
-                if (pointState == PointState.NO_CHESS) {
-                    continue;
-                }
-                CampType nextCamp = (maxDepth + curDepth) % 2 == 0 ? ChessBoardUtils.AI_CAMP : ChessBoardUtils.AI_CAMP.getEnemyCamp();
-                if (!pointState.isSameCamp(nextCamp)) {
-                    continue;
-                }
-
-                AbstractChessMoveGenerator moveGenerator = ChessManager.getInstance().getChessMoveGenerator(pointState);
-                List<Position> positions = moveGenerator.generateValidMove(boardPosition, i, j);
-                for (Position position : positions) {
-                    addMove(i, j, position.getX(), position.getY(), curDepth);
-                }
-            }
-        }
     }
 
     /**
@@ -130,49 +90,6 @@ public class ChessMoveManager {
 
         AbstractChessMoveChecker moveChecker = ChessManager.getInstance().getChessMoveChecker(startState);
         return moveChecker.checkMove(boardPosition, startX, startY, targetX, targetY);
-    }
-
-    /**
-     * 在走法集合中添加走法
-     *
-     * @param startX  移动起始点X坐标
-     * @param startY  移动起始点Y坐标
-     * @param targetX 移动目标点X坐标
-     * @param targetY 移动目标点Y坐标
-     * @param nPly    搜索层数
-     */
-    public void addMove(int startX, int startY, int targetX, int targetY, int nPly) {
-        this.moves.computeIfAbsent(nPly, n -> new ArrayList<>()).add(ChessMove.valueOf(startX, startY, targetX, targetY));
-    }
-
-    /**
-     * 获取指定搜索层数的所有合理走法
-     *
-     * @param nPly 搜索层数
-     * @return 该指定搜索层数的所有合理走法
-     */
-    public List<ChessMove> getPossibleMoves(int nPly) {
-        List<ChessMove> possibleMoves = moves.get(nPly);
-        if (possibleMoves == null) {
-            possibleMoves = new ArrayList<>();
-        }
-        return possibleMoves;
-    }
-
-    /**
-     * 清空所有合理走法
-     */
-    public void clearPossibleMoves() {
-        this.moves.clear();
-    }
-
-    /**
-     * 清除指定层数的所有合理走法
-     *
-     * @param nPly 搜索层数
-     */
-    public void clearPossibleMoves(int nPly) {
-        this.moves.remove(nPly);
     }
 
 }

@@ -139,6 +139,7 @@ public class TranspositionTable {
      * @param isMaxNode 当前局面是否是最大值节点，true-是最大值节点；false-是最小值节点
      */
     public void enterHashTable(HashItemType itemType, int depth, int value, boolean isMaxNode) {
+        // TODO 置换表这里需要优化，需要控制置换表的大小，如果不加控制，置换表的体积会膨胀地很快，这样会严重拖慢搜索速度
         HashItem item = HashItem.valueOf(itemType, chessBoardHashKey64, depth, value);
         Map<Integer, HashItem> itemMap = isMaxNode ? maxNodeHashMap : minNodeHashMap;
         itemMap.put(chessBoardHashKey32, item);

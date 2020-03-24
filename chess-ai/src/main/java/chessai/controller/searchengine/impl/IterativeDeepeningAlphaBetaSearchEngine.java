@@ -1,6 +1,5 @@
 package chessai.controller.searchengine.impl;
 
-import chessai.controller.ChessMoveManager;
 import chessai.controller.evaluation.IBoardEvaluator;
 import chessai.controller.searchengine.AbstractSearchEngine;
 import chessai.model.ChessBoard;
@@ -25,6 +24,7 @@ public class IterativeDeepeningAlphaBetaSearchEngine extends AbstractSearchEngin
     private long startTime;
     /**
      * 每一次迭代深化找出来的最佳着法
+     * TODO 这里可以优化，可以把每一次迭代深化找出来的最佳着法都存储起来，用一个列表，迭代越深，最佳着法越接近真实的最佳着法，就应该放在列表的最前面
      */
     private ChessMove backupBestMove;
 
@@ -55,6 +55,7 @@ public class IterativeDeepeningAlphaBetaSearchEngine extends AbstractSearchEngin
      * 在每次开始搜索最佳着法前的初始化工作
      */
     private void init() {
+        clearPossibleMoves();
         bestMove = null;
         startTime = System.currentTimeMillis();
         backupBestMove = null;
@@ -68,9 +69,9 @@ public class IterativeDeepeningAlphaBetaSearchEngine extends AbstractSearchEngin
         }
 
         // 生成合理走法
-        ChessMoveManager.getInstance().createPossibleMoves(boardPosition, curDepth, maxDepth);
+        createPossibleMoves(boardPosition, curDepth, maxDepth);
         // 遍历所有合理走法
-        List<ChessMove> allPossibleMoves = ChessMoveManager.getInstance().getPossibleMoves(curDepth);
+        List<ChessMove> allPossibleMoves = getPossibleMoves(curDepth);
         if (curDepth == maxDepth) {
             // 在根节点处，把上一次找到的最佳着法放在第一位
             sortPossibleMoves(allPossibleMoves, backupBestMove);

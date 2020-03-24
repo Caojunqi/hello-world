@@ -9,21 +9,21 @@ public class ChessMove {
     /**
      * 本次移动的起点X坐标
      */
-    private int startX;
+    protected int startX;
     /**
      * 本次移动的起点Y坐标
      */
-    private int startY;
+    protected int startY;
     /**
      * 本次移动的终点X坐标
      */
-    private int targetX;
+    protected int targetX;
     /**
      * 本次移动的终点Y坐标
      */
-    private int targetY;
+    protected int targetY;
 
-    private ChessMove() {
+    protected ChessMove() {
         // 私有化构造器
     }
 
