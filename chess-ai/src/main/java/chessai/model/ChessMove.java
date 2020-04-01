@@ -52,6 +52,11 @@ public class ChessMove {
         return Objects.hash(startX, startY, targetX, targetY);
     }
 
+    @Override
+    public String toString() {
+        return "[" + startX + "," + startY + "]->[" + targetX + "," + targetY + "]";
+    }
+
     public int getStartX() {
         return startX;
     }

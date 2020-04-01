@@ -25,7 +25,7 @@ public class TranspositionTableTest {
     private static Map<Integer, HashItem> transpositionTableMin = new HashMap<>();
 
     public static void main(String[] args) {
-        Tree tree = TestTree.valueOf();
+        Tree tree = TestTree.valueOfThree();
         principalVariationShort(tree.getRoot(), true, ALPHA, BETA);
         if (BEST_BODE == null) {
             SystemOut.error("没有找到最佳路径！！");

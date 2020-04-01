@@ -10,15 +10,17 @@ import java.util.List;
 public class AlgorithmTest {
     private static final int ALPHA = -1999;
     private static final int BETA = 1999;
-    private static Node BEST_BODE = null;
+    private static Node BEST_NODE = null;
+    private static Node BEST_NODE_BACKUP = null;
 
     public static void main(String[] args) {
-        Tree tree = TestTree.valueOf();
-        principalVariationShort(tree.getRoot(), true, ALPHA, BETA);
-        if (BEST_BODE == null) {
+        Tree tree = TestTree.valueOfFour();
+        //principalVariationShort(tree.getRoot(), true, ALPHA, BETA);
+        mtdf(tree.getRoot());
+        if (BEST_NODE == null) {
             SystemOut.error("没有找到最佳路径！！");
         } else {
-            SystemOut.error("最佳子节点是：" + BEST_BODE.getId());
+            SystemOut.error("最佳子节点是：" + BEST_NODE.getId());
         }
     }
 
@@ -43,7 +45,7 @@ public class AlgorithmTest {
             if (value > alpha) {
                 alpha = value;
                 if (child.getParentId() == 0) {
-                    BEST_BODE = child;
+                    BEST_NODE = child;
                 }
             }
         }
@@ -69,7 +71,7 @@ public class AlgorithmTest {
             if (value > alpha) {
                 alpha = value;
                 if (child.getParentId() == 0) {
-                    BEST_BODE = child;
+                    BEST_NODE = child;
                 }
             }
         }
@@ -96,7 +98,7 @@ public class AlgorithmTest {
                 if (value > alpha) {
                     alpha = value;
                     if (child.getParentId() == 0) {
-                        BEST_BODE = child;
+                        BEST_NODE = child;
                     }
                 }
             }
@@ -140,7 +142,7 @@ public class AlgorithmTest {
                     alpha = value;
 
                     if (child.getParentId() == 0) {
-                        BEST_BODE = child;
+                        BEST_NODE = child;
                     }
                 }
             }
@@ -186,7 +188,7 @@ public class AlgorithmTest {
                         alpha = value;
 
                         if (child.getParentId() == 0) {
-                            BEST_BODE = child;
+                            BEST_NODE = child;
                         }
                     }
                     if (alpha >= beta) {
@@ -218,7 +220,7 @@ public class AlgorithmTest {
                         beta = value;
 
                         if (child.getParentId() == 0) {
-                            BEST_BODE = child;
+                            BEST_NODE = child;
                         }
                     }
 
@@ -228,8 +230,64 @@ public class AlgorithmTest {
                 }
             }
         }
-
-
         return current;
     }
+
+    /**
+     * MTD(f)搜索算法
+     */
+    private static void mtdf(Node node) {
+        int firstGuess = 0;
+        int beta = 0;
+        int g = firstGuess;
+        int lowerBound = ALPHA;
+        int upperBound = BETA;
+        while (lowerBound < upperBound) {
+            BEST_NODE = BEST_NODE_BACKUP;
+            if (g == lowerBound) {
+                beta = g + 1;
+            } else {
+                beta = g;
+            }
+
+            // 空窗探测
+            g = alphaBetaMtdf(node, true, beta - 1, beta);
+            if (g < beta) {
+                // fail low
+                upperBound = g;
+            } else {
+                // fail high
+                lowerBound = g;
+            }
+        }
+    }
+
+    /**
+     * MTD(f)搜索算法使用的Alpha-Beta
+     */
+    private static int alphaBetaMtdf(Node node, boolean isMaxNode, int alpha, int beta) {
+        int current = ALPHA;
+        if (node.getChildren().isEmpty()) {
+            SystemOut.error("估值节点：" + node.getId());
+            return isMaxNode ? node.getValue() : -node.getValue();
+        }
+
+        for (Node child : node.getChildren()) {
+            int value = -alphaBetaMtdf(child, !isMaxNode, -beta, -alpha);
+            if (value > current) {
+                current = value;
+                if (child.getParentId() == 0) {
+                    BEST_NODE_BACKUP = child;
+                }
+                if (value >= beta) {
+                    break;
+                }
+                if (value > alpha) {
+                    alpha = value;
+                }
+            }
+        }
+        return current;
+    }
+
 }
