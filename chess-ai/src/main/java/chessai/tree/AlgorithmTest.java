@@ -14,7 +14,8 @@ public class AlgorithmTest {
     private static Node BEST_NODE_BACKUP = null;
 
     public static void main(String[] args) {
-        Tree tree = TestTree.valueOfFour();
+        Tree tree = TestTree.valueOfThree();
+        // alphaBetaFailSoft(tree.getRoot(), true, ALPHA, BETA);
         //principalVariationShort(tree.getRoot(), true, ALPHA, BETA);
         mtdf(tree.getRoot());
         if (BEST_NODE == null) {
