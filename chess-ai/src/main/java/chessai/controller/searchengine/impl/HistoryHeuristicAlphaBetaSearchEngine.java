@@ -24,7 +24,7 @@ public class HistoryHeuristicAlphaBetaSearchEngine extends AbstractSearchEngine 
     /**
      * 历史启发核心类
      */
-    private HistoryHeuristic historyHeuristic = new HistoryHeuristic();
+    protected HistoryHeuristic historyHeuristic = new HistoryHeuristic();
 
     public HistoryHeuristicAlphaBetaSearchEngine(IBoardEvaluator boardEvaluator) {
         this.boardEvaluator = boardEvaluator;
@@ -92,7 +92,7 @@ public class HistoryHeuristicAlphaBetaSearchEngine extends AbstractSearchEngine 
      * @param nPly 搜索层数
      * @return 该指定搜索层数的所有合理走法
      */
-    private List<HistoryScoreChessMove> getPossibleHistoryScoreMoves(int nPly) {
+    protected List<HistoryScoreChessMove> getPossibleHistoryScoreMoves(int nPly) {
         List<HistoryScoreChessMove> possibleMoves = historyScoreMoves.get(nPly);
         if (possibleMoves == null) {
             possibleMoves = new ArrayList<>();

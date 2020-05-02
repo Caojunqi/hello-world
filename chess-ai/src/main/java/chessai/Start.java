@@ -3,7 +3,7 @@ package chessai;
 import chessai.controller.ChessMoveManager;
 import chessai.controller.evaluation.jia.JiaBoardEvaluator;
 import chessai.controller.searchengine.AbstractSearchEngine;
-import chessai.controller.searchengine.impl.MtdfSearchEngine;
+import chessai.controller.searchengine.impl.NegaScoutTranspositionTableHistoryHeuristicSearchEngine;
 import chessai.model.ChessBoard;
 import chessai.model.ChessMove;
 import chessai.model.PointState;
@@ -27,7 +27,7 @@ public class Start {
         new ClassPathXmlApplicationContext(DEFAULT_APPLICATION_CONTEXT);
         // 初始化棋盘
         ChessBoard.getInstance().initChessBoard();
-        AbstractSearchEngine searchEngine = new MtdfSearchEngine(JiaBoardEvaluator.getInstance());
+        AbstractSearchEngine searchEngine = new NegaScoutTranspositionTableHistoryHeuristicSearchEngine(JiaBoardEvaluator.getInstance());
         // 开始下棋
         System.err.println("开始下棋，玩家先走：");
         Scanner scanner = new Scanner(System.in);
